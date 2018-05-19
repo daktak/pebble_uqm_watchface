@@ -1,0 +1,38 @@
+{
+    "author": "daktak@domo.ddns.net",
+    "dependencies": {},
+    "keywords": [],
+    "name": "uqm_watchface",
+    "pebble": {
+        "displayName": "UQM_Watchface",
+        "enableMultiJS": false,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/mauler-big-000.png",
+                    "name": "MAULER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/eluder-cap-002.png",
+                    "memoryFormat": "8Bit",
+                    "name": "ELUDER2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
+        "uuid": "069fda8a-4673-4005-b88d-43d12e12fb61",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.0.0"
+}
