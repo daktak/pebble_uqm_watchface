@@ -222,16 +222,16 @@ static void set_ship(){
   APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
   set_race();
-  
-  if (random_race_int != old_race) {
-    int ship_int = random_race_int;
-    // 50 / 50 chance mmrnhrm is ywing
-    if (random_race_int == 11) {
-      if (rand() %2 == 1) {
-        APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
-        ship_int = 26;
-      }
+  int ship_int = random_race_int;
+  // 50 / 50 chance mmrnhrm is ywing
+  if (random_race_int == 11) {
+    if (rand() %2 == 1) {
+      APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
+      ship_int = 26;
     }
+  }
+  if (ship_int != old_race) {
+
     layer_remove_from_parent((Layer*)rot);
     ship_image = gbitmap_create_with_resource(races[ship_int-1]);
     rot = rot_bitmap_layer_create(ship_image);
