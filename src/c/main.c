@@ -26,6 +26,14 @@
 #define YEHAT 24
 #define ZOQFOTPIK 25
 
+typedef struct ClaySettings {
+  int ship_select;
+  int ship_change;
+  int ship_rotate;
+  int cap_change;
+} ClaySettings;
+static ClaySettings settings;
+
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
@@ -98,11 +106,15 @@ static void update_captain(char *captain) {
   text_layer_set_text(s_cap_layer, s_buffer);
 }
 
-static void set_captain() {
-  char *current_cap;
-  if (random_race_int == 0) {
+static void set_race() {
+  if ((random_race_int <= 0)||(random_race_int > 26)) {
     random_race_int = rand() % 25 +1;
   }
+}
+
+static void set_captain() {
+  char *current_cap;
+  set_race();
   int def_rand = rand() % 16;
   switch (random_race_int) {
     case SPATHI:
@@ -187,9 +199,23 @@ static void set_captain() {
   
 }
 
+static void rotate(struct tm *tick_time, int min) {
+  int unit = 0;
+  if (min==1){
+    unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
+  } else if (min==60) {
+    unit = tick_time->tm_min * TRIG_MAX_ANGLE / 60;
+  } else if (min==12) {
+    unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30); 
+  }
+  if ((settings.ship_rotate == min) && (settings.ship_rotate != 0)) {
+    rot_bitmap_layer_set_angle(rot, unit);
+  }
+}
+
 static void set_ship(){
   int old_race = random_race_int;
-  random_race_int = rand() % 25 +1;
+  set_race();
   
   if (random_race_int != old_race) {
     int ship_int = random_race_int;
@@ -211,12 +237,19 @@ static void set_ship(){
     rot_bitmap_set_compositing_mode(rot, GCompOpSet);
     //set initial angle,
     time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
-    //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
-    rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
-    //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
+    struct tm *tick_time = localtime(&temp); 
+    rotate(tick_time, settings.ship_rotate);
     layer_add_child(window_layer, (Layer*)rot);
     
+    set_captain();
+  }
+}
+
+static void change(int min) {
+  if (settings.ship_change == min) {
+    set_ship();
+  }
+  if (settings.cap_change == min) {
     set_captain();
   }
 }
@@ -235,16 +268,17 @@ static void update_time() {
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
+  rotate(tick_time,1);
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
+    change(1);
     rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
     if(tick_time->tm_min%5 == 0){
-      set_captain();
+      change(5);
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
-        //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
+        rotate(tick_time,12);
         if(tick_time->tm_min == 0){ //Every hour
-          set_ship();
+          change(60);;
         }
       }
     }
@@ -294,8 +328,23 @@ static void main_window_load(Window *window) {
   //SHIP
   set_ship();
 }
+// Initialize the default settings
+static void prv_default_settings() {
+  settings.ship_rotate = 60;
+  settings.ship_change = 60;
+  settings.cap_change = 5;
+  settings.ship_select = 0;
+}
+
+static void prv_load_settings() {
+  // Load the default settings
+  prv_default_settings();
+  // Read settings from persistent storage, if they exist
+  //persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+}
 
 static void init() {
+  prv_load_settings();
   // Create main Window element and assign to pointer
   s_main_window = window_create();
   window_set_background_color(s_main_window, GColorBlack);
@@ -309,7 +358,11 @@ static void init() {
   window_stack_push(s_main_window, true);
   // Register with TickTimerService
   // change to SECOND_UNIT if rotating needed
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  if (settings.ship_rotate == 1) {
+    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  } else {
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  };
   // Make sure the time is displayed from the start
   update_time();
 }
