@@ -11,109 +11,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/icon.png",
-                    "menuIcon": true,
-                    "name": "ICON",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/stinger.png",
-                    "name": "STINGER",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/terminator.png",
-                    "name": "TERMINATOR",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/intruder.png",
-                    "name": "INTRUDER",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/jugger.png",
-                    "name": "JUGGER",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/dreadnought.png",
-                    "name": "DREADNOUGHT",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/drone.png",
-                    "name": "DRONE",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/torch.png",
-                    "name": "TORCH",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/penetrator.png",
-                    "name": "PENETRATOR",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/blade.png",
-                    "name": "BLADE",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/eluder.png",
-                    "name": "ELUDER",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/probe.png",
-                    "name": "PROBE",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/scout.png",
-                    "name": "SCOUT",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/fury.png",
-                    "name": "FURY",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/nemesis.png",
-                    "name": "NEMESIS",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/avenger.png",
-                    "name": "AVENGER",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/podship.png",
-                    "name": "PODSHIP",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/ywing.png",
                     "name": "YWING",
                     "targetPlatforms": null,
@@ -132,14 +29,56 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/marauder.png",
-                    "name": "MARAUDER",
+                    "file": "images/torch.png",
+                    "name": "TORCH",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/cruiser.png",
-                    "name": "CRUISER",
+                    "file": "images/terminator.png",
+                    "name": "TERMINATOR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/stinger.png",
+                    "name": "STINGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/skiff.png",
+                    "name": "SKIFF",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/scout.png",
+                    "name": "SCOUT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/probe.png",
+                    "name": "PROBE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/podship.png",
+                    "name": "PODSHIP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/penetrator.png",
+                    "name": "PENETRATOR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis.png",
+                    "name": "NEMESIS",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -150,14 +89,27 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/avatar.png",
-                    "name": "AVATAR",
+                    "file": "images/marauder.png",
+                    "name": "MARAUDER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/broodhome.png",
-                    "name": "BROODHOME",
+                    "file": "images/jugger.png",
+                    "name": "JUGGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/intruder.png",
+                    "name": "INTRUDER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon.png",
+                    "menuIcon": true,
+                    "name": "ICON",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -168,8 +120,56 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/skiff.png",
-                    "name": "SKIFF",
+                    "file": "images/fury.png",
+                    "name": "FURY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/eluder.png",
+                    "name": "ELUDER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/drone.png",
+                    "name": "DRONE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/dreadnought.png",
+                    "name": "DREADNOUGHT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/cruiser.png",
+                    "name": "CRUISER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/broodhome.png",
+                    "name": "BROODHOME",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/blade.png",
+                    "name": "BLADE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avenger.png",
+                    "name": "AVENGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avatar.png",
+                    "name": "AVATAR",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
@@ -177,7 +177,11 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-            "basalt"
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
         ],
         "uuid": "069fda8a-4673-4005-b88d-43d12e12fb61",
         "watchapp": {

@@ -216,6 +216,8 @@ static void set_ship(){
     rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
     //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
     layer_add_child(window_layer, (Layer*)rot);
+    
+    set_captain();
   }
 }
 
@@ -243,7 +245,6 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
         //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
         if(tick_time->tm_min == 0){ //Every hour
           set_ship();
-          set_captain();
         }
       }
     }
@@ -292,7 +293,6 @@ static void main_window_load(Window *window) {
   
   //SHIP
   set_ship();
-  set_captain();
 }
 
 static void init() {
