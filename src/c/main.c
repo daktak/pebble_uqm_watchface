@@ -1,5 +1,31 @@
 #include <pebble.h>
 
+#define SPATHI 1
+#define ANDROSYNTH 2
+#define ARILOU 3
+#define CHENJESU 4
+#define CHMMR 5
+#define DRUUGE 6
+#define HUMAN 7
+#define ILWRATH 8
+#define KOHRAH 9
+#define MELNORME 10
+#define MMRNHRM 11
+#define MYCON 12
+#define ORZ 13
+#define PKUNK 14
+#define SHOFIXTI 15
+#define SLYLANDRO 16
+#define SUPOX 17
+#define SYREEN 18
+#define THRADDASH 19
+#define UMGAH 20
+#define URQUAN 21
+#define UTWIG 22
+#define VUX 23
+#define YEHAT 24
+#define ZOQFOTPIK 25
+
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
@@ -19,7 +45,7 @@ static char avatar_cap[16][10]={"Mnzgk","Chzrmn","Bzztrm","Zrnzrk","Tzzqrn","Kzz
 static char mauler_cap[16][10]={"Tuuga","Siinur","Kaapo","Juugl","Paato","Feezo","Maad","Moola","Kooli","Faazur","Zooto","Biitur","Duulard","Piini","Soopi","Peeru"};
 //human
 static char cruiser_cap[16][10]={"Decker","Trent","Adama","Spiff","Graeme","Kirk","Pike","Halleck","Tuf","Pirx","Wu","VanRijn","Ender","Buck","Solo","Belt"};
-//ilwrate
+//ilwrath
 static char avenger_cap[16][10]={"Gorgon","Taragon","Kalgon","Borgo","Dirga","Slygor","Rogash","Argarak","Kayzar","Baylor","Zoggak","Targa","Vogar","Lurgo","Regorjo","Manglor"};
 //kohrah
 static char marauder_cap[16][10]={"Death 11","Death 17","Death 37","Death 23","Death 7","Death 13","Death 19","Death 29","Death 31","Death 41","Death 43","Death 3","Death 5","Death 47","Death 53","Death 83"};
@@ -46,7 +72,7 @@ static char torch_cap[16][10] = {"Dthunk","Bardat","Znonk","Mnump","Bronk","Smup
 //umgah
 static char drone_cap[16][10] = {"Julg'ka","Gibj'o","Baguk'i","O'guk'e","Gwap'he","Chez'ef","Znork'i","Bob","Kwik'ow","Ei'Ei'o","Brewz'k","Pruk'u","O'bargy","Kterbi'a","Chup'he","I'buba"};
 //urquan
-static char dreadnough_cap[16][10] = {"Lord 999","Lord 342","Lord 88","Lord 156","Lord 43","Lord 412","Lord 666","Lord 18","Lord 237","Lord 89","Lord 3","Lord 476","Lord 103","Lord 783","Lord 52","Lord 21"};
+static char dreadnought_cap[16][10] = {"Lord 999","Lord 342","Lord 88","Lord 156","Lord 43","Lord 412","Lord 666","Lord 18","Lord 237","Lord 89","Lord 3","Lord 476","Lord 103","Lord 783","Lord 52","Lord 21"};
 //utwig
 static char jugger_cap[16][10] = {"Endo","Vermi","Manny","Uuter","Nergo","Sami","Duna","Frann","Krisk","Lololo","Snoon","Nestor","Lurg","Thory","Jujuby","Erog"};
 //vux
@@ -55,6 +81,111 @@ static char intruder_cap[16][4] = {"ZIK","PUZ","ZUK","VIP","ZIT","YUK","DAK","ZR
 static char terminator_cap[16][10] = {"Heep-eep","Feep-eep","Reep-eep","Yeep-eep","Beep-eep","Eeep-eep","Meep-eep","Teep-eep","Jeep-eep","Leep-eep","Peep-eep","Weep-eep","Veep-eep","Geep-eep","Zeep-eep","Neep-eep"};
 //zoqfotpik
 static char stinger_cap[16][8] = {"NikNak","FipPat","DipPak","FatPot","ZikFat","PukYor","TopNik","PorKoo","TikTak","RinTin","FitFap","TotToe","ZipZak","TikTok","MikMok","SikSok"};
+
+static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SKIFF, RESOURCE_ID_BROODHOME, RESOURCE_ID_AVATAR, RESOURCE_ID_MAULER,
+                        RESOURCE_ID_CRUISER, RESOURCE_ID_AVENGER, RESOURCE_ID_MARAUDER, RESOURCE_ID_TRADER, RESOURCE_ID_XFORM, RESOURCE_ID_PODSHIP, 
+                        RESOURCE_ID_NEMESIS, RESOURCE_ID_FURY, RESOURCE_ID_SCOUT, RESOURCE_ID_PROBE, RESOURCE_ID_BLADE, RESOURCE_ID_PENETRATOR,
+                        RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
+                        RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
+
+static void update_captain(char *captain) {
+  static char s_buffer[10];
+  strcpy(s_buffer, captain);
+  text_layer_set_text(s_cap_layer, s_buffer);
+}
+
+static void random_race() {
+  char *current_cap;
+  int random_race = rand() % 25 +1;
+  int def_rand = rand() % 16;
+  switch (random_race) {
+    case SPATHI:
+      current_cap = eluder_cap[rand() % 17];
+      break;
+    case ANDROSYNTH:
+      current_cap = guardian_cap[def_rand];
+      break;
+    case ARILOU:
+      current_cap = skiff_cap[def_rand];
+      break;
+    case CHENJESU:
+      current_cap = broodhome_cap[def_rand];
+      break;
+    case CHMMR:
+      current_cap = avatar_cap[def_rand];
+      break;
+    case DRUUGE:
+      current_cap = mauler_cap[def_rand];
+      break;
+    case HUMAN:
+      current_cap = cruiser_cap[def_rand];
+      break;
+    case ILWRATH:
+      current_cap = avenger_cap[def_rand];
+      break;
+    case KOHRAH:
+      current_cap = marauder_cap[def_rand];
+      break;
+    case MELNORME:
+      current_cap = trader_cap[def_rand];
+      break;
+    case MMRNHRM:
+      current_cap = xform_cap[def_rand];
+      break;
+    case MYCON:
+      current_cap = podship_cap[def_rand];
+      break;
+    case ORZ:
+      current_cap = nemesis_cap[def_rand];
+      break;
+    case PKUNK:
+      current_cap = fury_cap[def_rand];
+      break;
+    case SHOFIXTI:
+      current_cap = scout_cap[def_rand];
+      break;
+    case SLYLANDRO:
+      current_cap = probe_cap[0];
+      break;
+    case SUPOX:
+      current_cap = blade_cap[def_rand];
+      break;
+    case SYREEN:
+      current_cap = penetrator_cap[def_rand];
+      break;
+    case THRADDASH:
+      current_cap = torch_cap[def_rand];
+      break;
+    case UMGAH:
+      current_cap = drone_cap[def_rand];
+      break;
+    case URQUAN:
+      current_cap = dreadnought_cap[def_rand];
+      break;
+    case UTWIG:
+      current_cap = jugger_cap[def_rand];
+      break;
+    case VUX:
+      current_cap = intruder_cap[def_rand];
+      break;
+    case YEHAT:
+      current_cap = terminator_cap[def_rand];
+      break;
+    case ZOQFOTPIK:
+      current_cap = stinger_cap[def_rand];
+      break;
+    default:
+      current_cap = "daktak";
+  }
+  update_captain(current_cap);
+  // 50 / 50 chance mmrnhrm is ywing
+  if (random_race == 11) {
+    if (rand() %2 == 1) {
+      random_race = 26;
+    }
+  }
+  ship_image = gbitmap_create_with_resource(races[random_race-1]);
+}
 
 
 static void update_time() {
@@ -74,18 +205,12 @@ static void update_ship() {
 
 }
 
-static void update_captain() {
-  static char s_buffer[10];
-  strcpy(s_buffer, eluder_cap[rand() % 17]);
-  text_layer_set_text(s_cap_layer, s_buffer);
-}
-
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
     if(tick_time->tm_min%5 == 0){
-      update_captain();
+      //update_captain();
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
         if(tick_time->tm_min == 0){ //Every hour
           update_ship();
@@ -130,13 +255,14 @@ static void main_window_load(Window *window) {
       GRect(0, bounds.size.h - 32, bounds.size.w, 50));
   text_layer_set_background_color(s_cap_layer, GColorBlack);
   text_layer_set_text_color(s_cap_layer, GColorWhite);
-  update_captain();
+  //update_captain();
   text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
   
   //SHIP
-  ship_image = gbitmap_create_with_resource(RESOURCE_ID_ELUDER);
+  //ship_image = gbitmap_create_with_resource(RESOURCE_ID_ELUDER);
+  random_race();
   rot = rot_bitmap_layer_create(ship_image);
   GRect rbounds = layer_get_bounds((Layer*)rot);
   const GPoint center = grect_center_point(&bounds);
