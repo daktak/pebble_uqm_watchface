@@ -26,6 +26,19 @@
 #define YEHAT 24
 #define ZOQFOTPIK 25
 
+#define SETTINGS_KEY 1
+
+// Define our settings struct
+typedef struct ClaySettings {
+  int ship_select;
+  int ship_change;
+  int ship_rotate;
+  int cap_change;
+  int last_race;
+  char* last_cap;
+} ClaySettings;
+static ClaySettings settings;
+
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
@@ -88,9 +101,18 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
-int random_race_int = 0;
 Layer *window_layer;
 GRect bounds;
+int race_int;
+
+static void set_race() {
+  if ((race_int <= 0)||(race_int > 26)) {
+    race_int = rand() % 25 +1;
+    settings.ship_select = race_int;
+  } else {
+    race_int = settings.ship_select;
+  }
+}
 
 static void update_captain(char *captain) {
   static char s_buffer[10];
@@ -100,11 +122,10 @@ static void update_captain(char *captain) {
 
 static void set_captain() {
   char *current_cap;
-  if (random_race_int == 0) {
-    random_race_int = rand() % 25 +1;
-  }
+  set_race();
   int def_rand = rand() % 16;
-  switch (random_race_int) {
+
+  switch (race_int) {
     case SPATHI:
       current_cap = eluder_cap[rand() % 17];
       break;
@@ -181,20 +202,38 @@ static void set_captain() {
       current_cap = stinger_cap[def_rand];
       break;
     default:
-      current_cap = "daktak";
+      current_cap = "Daktak";
   }
   update_captain(current_cap);
-  
+  settings.last_cap = current_cap;
+}
+
+static void rotate(struct tm *tick_time, int min) {
+  int unit = 0;
+  if (min==1){
+    unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
+  } else if (min==60) {
+    unit = tick_time->tm_min * TRIG_MAX_ANGLE / 60;
+  } else if (min==12) {
+    unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30); 
+  }
+  if ((settings.ship_rotate == min) && (settings.ship_rotate != 0)) {
+    rot_bitmap_layer_set_angle(rot, unit);
+  }
+}
+
+static void prv_save_settings() {
+  persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
 
 static void set_ship(){
-  int old_race = random_race_int;
-  random_race_int = rand() % 25 +1;
+  int old_race = race_int;
+  set_race();
   
-  if (random_race_int != old_race) {
-    int ship_int = random_race_int;
+  if (race_int != old_race) {
+    int ship_int = race_int;
     // 50 / 50 chance mmrnhrm is ywing
-    if (random_race_int == 11) {
+    if (ship_int == 11) {
       if (rand() %2 == 1) {
         ship_int = 26;
       }
@@ -212,12 +251,11 @@ static void set_ship(){
     //set initial angle,
     time_t temp = time(NULL);
     struct tm *tick_time = localtime(&temp);
-    //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
-    rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
-    //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
+    rotate(tick_time, settings.ship_rotate);
     layer_add_child(window_layer, (Layer*)rot);
     
     set_captain();
+    prv_save_settings();
   }
 }
 
@@ -234,17 +272,29 @@ static void update_time() {
   text_layer_set_text(s_time_layer, s_buffer);
 }
 
+static void change(int min) {
+  if (settings.ship_change == min) {
+    set_ship();
+  }
+  if (settings.cap_change == min) {
+    set_captain();
+  }
+}
+
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
+  
+  rotate(tick_time,1);
+  
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
-    rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
+    rotate(tick_time,60);
+    change(1);
     if(tick_time->tm_min%5 == 0){
-      set_captain();
+      change(5);
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
-        //rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
+        rotate(tick_time, 60); 
         if(tick_time->tm_min == 0){ //Every hour
-          set_ship();
+          change(60);
         }
       }
     }
@@ -286,7 +336,7 @@ static void main_window_load(Window *window) {
       GRect(0, bounds.size.h - 32, bounds.size.w, 50));
   text_layer_set_background_color(s_cap_layer, GColorBlack);
   text_layer_set_text_color(s_cap_layer, GColorWhite);
-  //update_captain();
+  //set_captain();
   text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
@@ -295,7 +345,47 @@ static void main_window_load(Window *window) {
   set_ship();
 }
 
+// Initialize the default settings
+static void prv_default_settings() {
+  settings.ship_rotate = 60;
+  settings.ship_change = 60;
+  settings.cap_change = 5;
+  settings.ship_select = 0;
+  settings.last_race = 1;
+  settings.last_cap = "Daktak";
+}
+
+// Read settings from persistent storage
+static void prv_load_settings() {
+  // Load the default settings
+  prv_default_settings();
+  // Read settings from persistent storage, if they exist
+  persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+  race_int = settings.last_race;
+}
+
+static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
+  Tuple *ship_select_t = dict_find(iter, MESSAGE_KEY_ship_selection);
+  Tuple *ship_change_t = dict_find(iter, MESSAGE_KEY_ship_change);
+  Tuple *ship_rotate_t = dict_find(iter, MESSAGE_KEY_ship_rotate);
+  Tuple *cap_change_t = dict_find(iter, MESSAGE_KEY_cap_change);
+  if (ship_select_t) {
+    settings.ship_select = ship_select_t->value->int32;
+  }
+  if (ship_rotate_t) {
+    settings.ship_rotate = ship_rotate_t->value->int32;
+  }
+  if (ship_change_t) {
+    settings.ship_change = ship_change_t->value->int32;
+  }
+  if (cap_change_t) {
+    settings.cap_change = cap_change_t->value->int32;
+  }
+  prv_save_settings();
+}
+
 static void init() {
+   prv_load_settings();
   // Create main Window element and assign to pointer
   s_main_window = window_create();
   window_set_background_color(s_main_window, GColorBlack);
@@ -308,10 +398,16 @@ static void init() {
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
   // Register with TickTimerService
-  // change to SECOND_UNIT if rotating needed
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  if (settings.ship_rotate == 1) {
+    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  } else {
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  };
   // Make sure the time is displayed from the start
   update_time();
+  // Open AppMessage connection
+  app_message_register_inbox_received(prv_inbox_received_handler);
+  app_message_open(128, 128);
 }
 
 int main(void) {

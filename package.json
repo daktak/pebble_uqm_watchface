@@ -11,10 +11,12 @@
         ],
         "displayName": "UQM_Watchface",
         "enableMultiJS": true,
-        "messageKeys": {
-            "TEMPERATURE_KEY": 0,
-            "TEMPLATE_KEY": 1
-        },
+        "messageKeys": [
+            "ship_selection",
+            "ship_change",
+            "ship_rotate",
+            "cap_change"
+        ],
         "projectType": "native",
         "resources": {
             "media": [
@@ -193,5 +195,5 @@
             "watchface": true
         }
     },
-    "version": "0.1.0"
+    "version": "0.2.0"
 }
