@@ -281,6 +281,9 @@ static void update_time() {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rotate(tick_time,1);
+  if(tick_time->tm_sec == 30){
+    change(30);
+  }
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
     change(1);
@@ -344,7 +347,7 @@ static void main_window_load(Window *window) {
 // Initialize the default settings
 static void prv_default_settings() {
   settings.ship_rotate = 60;
-  settings.ship_change = 60;
+  settings.ship_change = 10;
   settings.cap_change = 5;
   settings.ship_select = 0;
 }
