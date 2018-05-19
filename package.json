@@ -1,12 +1,20 @@
 {
     "author": "daktak@domo.ddns.net",
-    "dependencies": {},
+    "dependencies": {
+        "pebble-clay": "^1.0.0"
+    },
     "keywords": [],
     "name": "uqm_watchface",
     "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
         "displayName": "UQM_Watchface",
-        "enableMultiJS": false,
-        "messageKeys": [],
+        "enableMultiJS": true,
+        "messageKeys": {
+            "TEMPERATURE_KEY": 0,
+            "TEMPLATE_KEY": 1
+        },
         "projectType": "native",
         "resources": {
             "media": [
