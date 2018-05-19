@@ -12,8 +12,8 @@ module.exports = [
   },
   {
     "type": "select",
-    "messageKey": "ship_selection",
-    "label": "Ship Selection",
+    "messageKey": "TEMPERATURE_SIZE",
+    "label": "SHIP SELECTION",
     "defaultValue" : "0",
     "options": [
       { 
