@@ -67,6 +67,7 @@ static char podship_cap[16][10]={"Blort","Chupp","Floos","Glish","Glob","Glush",
 static char nemesis_cap[16][10] = {"*Wet*","*Happy*","*Frumple*","*Camper*","*Loner*","*Dancer*","*Singer*","*Heavy*","*NewBoy*","*FatFun*","*Pepper*","*Hungry*","*Deep*","*Smell*","*Juice*","*Squirt*"};
 //pkunk
 static char fury_cap[16][10] = {"Awwky","Tweety","WudStok","Poppy","Brakky","Hooter","Buzzard","Polly","Ernie","Yompin","Fuzzy","Raven","Crow","Jay","Screech","Twitter"};
+static char pkunk_insult[14][7] = {"Baby","Dou-Dou","Fool","Idiot","Jerk","Looser","Moron","Nerd","Nitwit","Stupid","Twig","Whimp","Worm","Dummy",};
 //shofixti
 static char scout_cap[18][10] = {"Hiyata","Wasabe","Kudzu","Ichiban","Bonsai!","Genjiro","Ginzu","Busu","Gaijin","Daikon","Sushi","Naninani","Chimchim","Tora-3","Tofu","Kimba","Tanaka","Katana"};
 //slylandro
@@ -107,12 +108,16 @@ static void update_captain(char *captain) {
 }
 
 static void set_race() {
-  if ((random_race_int <= 0)||(random_race_int > 26)) {
+  if (((random_race_int <= 0)||(random_race_int > 26))&&(settings.ship_select == 0)) {
+    APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
     random_race_int = rand() % 25 +1;
+  } else {
+    random_race_int = settings.ship_select;
   }
 }
 
 static void set_captain() {
+  APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
   set_race();
   int def_rand = rand() % 16;
@@ -214,6 +219,7 @@ static void rotate(struct tm *tick_time, int min) {
 }
 
 static void set_ship(){
+  APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
   set_race();
   
@@ -222,6 +228,7 @@ static void set_ship(){
     // 50 / 50 chance mmrnhrm is ywing
     if (random_race_int == 11) {
       if (rand() %2 == 1) {
+        APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
         ship_int = 26;
       }
     }
@@ -246,7 +253,12 @@ static void set_ship(){
 }
 
 static void change(int min) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "change");
   if (settings.ship_change == min) {
+    random_race_int = 0;
+    set_ship();
+  } else if ((random_race_int == 11)&&(min=1)) {
+    //give a chace for the xform to switch to ywing and vica versa
     set_ship();
   }
   if (settings.cap_change == min) {
