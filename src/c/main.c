@@ -88,17 +88,23 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
+int random_race_int = 0;
+Layer *window_layer;
+GRect bounds;
+
 static void update_captain(char *captain) {
   static char s_buffer[10];
   strcpy(s_buffer, captain);
   text_layer_set_text(s_cap_layer, s_buffer);
 }
 
-static void random_race() {
+static void set_captain() {
   char *current_cap;
-  int random_race = rand() % 25 +1;
+  if (random_race_int == 0) {
+    random_race_int = rand() % 25 +1;
+  }
   int def_rand = rand() % 16;
-  switch (random_race) {
+  switch (random_race_int) {
     case SPATHI:
       current_cap = eluder_cap[rand() % 17];
       break;
@@ -178,15 +184,39 @@ static void random_race() {
       current_cap = "daktak";
   }
   update_captain(current_cap);
-  // 50 / 50 chance mmrnhrm is ywing
-  if (random_race == 11) {
-    if (rand() %2 == 1) {
-      random_race = 26;
-    }
-  }
-  ship_image = gbitmap_create_with_resource(races[random_race-1]);
+  
 }
 
+static void set_ship(){
+  int old_race = random_race_int;
+  random_race_int = rand() % 25 +1;
+  
+  if (random_race_int != old_race) {
+    int ship_int = random_race_int;
+    // 50 / 50 chance mmrnhrm is ywing
+    if (random_race_int == 11) {
+      if (rand() %2 == 1) {
+        ship_int = 26;
+      }
+    }
+    layer_remove_from_parent((Layer*)rot);
+    ship_image = gbitmap_create_with_resource(races[ship_int-1]);
+    rot = rot_bitmap_layer_create(ship_image);
+    GRect rbounds = layer_get_bounds((Layer*)rot);
+    const GPoint center = grect_center_point(&bounds);
+    GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
+    image_frame.origin.x -= rbounds.size.w/2; //rotlayer does something odd with positioning, and this is the only way I could correct it
+    image_frame.origin.y -= rbounds.size.h/2; //-17
+    layer_set_frame((Layer*)rot,image_frame);
+    rot_bitmap_set_compositing_mode(rot, GCompOpSet);
+    //set initial angle,
+    time_t temp = time(NULL);
+    struct tm *tick_time = localtime(&temp);
+    //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
+    rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
+    layer_add_child(window_layer, (Layer*)rot);
+  }
+}
 
 static void update_time() {
   // Get a tm structure
@@ -201,19 +231,18 @@ static void update_time() {
   text_layer_set_text(s_time_layer, s_buffer);
 }
 
-static void update_ship() {
-
-}
-
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
+  //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
+    //rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
     if(tick_time->tm_min%5 == 0){
-      //update_captain();
+      set_captain();
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
+        rot_bitmap_layer_set_angle(rot, tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30)); 
         if(tick_time->tm_min == 0){ //Every hour
-          update_ship();
+          set_ship();
+          set_captain();
         }
       }
     }
@@ -235,8 +264,8 @@ static void main_window_unload(Window *window) {
 
 static void main_window_load(Window *window) {
   // Get information about the Window
-  Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
+  window_layer = window_get_root_layer(window);
+  bounds = layer_get_bounds(window_layer);
 
   // Time
   s_time_layer = text_layer_create(
@@ -261,17 +290,8 @@ static void main_window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
   
   //SHIP
-  //ship_image = gbitmap_create_with_resource(RESOURCE_ID_ELUDER);
-  random_race();
-  rot = rot_bitmap_layer_create(ship_image);
-  GRect rbounds = layer_get_bounds((Layer*)rot);
-  const GPoint center = grect_center_point(&bounds);
-  GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
-  image_frame.origin.x -= rbounds.size.w/2; //rotlayer does something odd with positioning, and this is the only way I could correct it
-  image_frame.origin.y -= rbounds.size.h/2; //-17
-  layer_set_frame((Layer*)rot,image_frame);
-  rot_bitmap_set_compositing_mode(rot, GCompOpSet);
-  layer_add_child(window_layer, (Layer*)rot);
+  set_ship();
+  set_captain();
 }
 
 static void init() {
@@ -287,7 +307,8 @@ static void init() {
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
   // Register with TickTimerService
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  // change to SECOND_UNIT if rotating needed
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   // Make sure the time is displayed from the start
   update_time();
 }
