@@ -11,6 +11,13 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/icon.png",
+                    "menuIcon": true,
+                    "name": "ICON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/stinger.png",
                     "name": "STINGER",
                     "targetPlatforms": null,
