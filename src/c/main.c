@@ -272,13 +272,14 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
     change(1);
-    rot_bitmap_layer_set_angle(rot, tick_time->tm_min * TRIG_MAX_ANGLE / 60);
+    rotate(tick_time,60);
     if(tick_time->tm_min%5 == 0){
       change(5);
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
         rotate(tick_time,12);
+        change(10);
         if(tick_time->tm_min == 0){ //Every hour
-          change(60);;
+          change(60);
         }
       }
     }
