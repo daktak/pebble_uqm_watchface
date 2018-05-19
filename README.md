@@ -3,7 +3,7 @@ Pebble Watch Face
 
 Based off [Ur-Quan Masters](http://sc2.sourceforge.net/downloads.php)
 
-!(screenshots/-chmmr.png?raw=true)
+![](screenshots/-chmmr.png?raw=true)
 !(screenshots/-eluder.png?raw=true)
 !(screenshots/-human.png?raw=true)
 !(screenshots/-pkunk.png?raw=true)
