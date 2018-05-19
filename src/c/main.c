@@ -3,7 +3,7 @@
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
-static GBitmap *meri_image;
+static GBitmap *ship_image;
 static RotBitmapLayer *rot;
 //spathi
 static char eluder_cap[17][10]={"Thwil","Pwappy","Phwiff","Wiffy","Plibnik","Snurfel","Kwimp","Pkunky","Jinkeze","Thintho","Rupatup","Nargle","Phlendo","Snelopy","Bwinkin","Whuff","Fwiffo"};
@@ -46,7 +46,7 @@ static char torch_cap[16][10] = {"Dthunk","Bardat","Znonk","Mnump","Bronk","Smup
 //umgah
 static char drone_cap[16][10] = {"Julg'ka","Gibj'o","Baguk'i","O'guk'e","Gwap'he","Chez'ef","Znork'i","Bob","Kwik'ow","Ei'Ei'o","Brewz'k","Pruk'u","O'bargy","Kterbi'a","Chup'he","I'buba"};
 //urquan
-static char dreadnaugh_cap[16][10] = {"Lord 999","Lord 342","Lord 88","Lord 156","Lord 43","Lord 412","Lord 666","Lord 18","Lord 237","Lord 89","Lord 3","Lord 476","Lord 103","Lord 783","Lord 52","Lord 21"};
+static char dreadnough_cap[16][10] = {"Lord 999","Lord 342","Lord 88","Lord 156","Lord 43","Lord 412","Lord 666","Lord 18","Lord 237","Lord 89","Lord 3","Lord 476","Lord 103","Lord 783","Lord 52","Lord 21"};
 //utwig
 static char jugger_cap[16][10] = {"Endo","Vermi","Manny","Uuter","Nergo","Sami","Duna","Frann","Krisk","Lololo","Snoon","Nestor","Lurg","Thory","Jujuby","Erog"};
 //vux
@@ -70,10 +70,28 @@ static void update_time() {
   text_layer_set_text(s_time_layer, s_buffer);
 }
 
+static void update_ship() {
+
+}
+
+static void update_captain() {
+  static char s_buffer[10];
+  strcpy(s_buffer, eluder_cap[rand() % 17]);
+  text_layer_set_text(s_cap_layer, s_buffer);
+}
+
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rot_bitmap_layer_set_angle(rot, tick_time->tm_sec * TRIG_MAX_ANGLE / 60);
   if(tick_time->tm_sec == 0){ // Every minute
-      update_time();
+    update_time();
+    if(tick_time->tm_min%5 == 0){
+      update_captain();
+      if(tick_time->tm_min%10 == 0){ // Every ten minutes
+        if(tick_time->tm_min == 0){ //Every hour
+          update_ship();
+        }
+      }
+    }
   }
 }
 
@@ -85,7 +103,7 @@ static void deinit() {
 static void main_window_unload(Window *window) {
   // Destroy TextLayer
   text_layer_destroy(s_time_layer);
-  gbitmap_destroy(meri_image);
+  gbitmap_destroy(ship_image);
   rot_bitmap_layer_destroy(rot);
   text_layer_destroy(s_cap_layer);
 }
@@ -112,16 +130,14 @@ static void main_window_load(Window *window) {
       GRect(0, bounds.size.h - 32, bounds.size.w, 50));
   text_layer_set_background_color(s_cap_layer, GColorBlack);
   text_layer_set_text_color(s_cap_layer, GColorWhite);
-  static char s_buffer[8];
-  strcpy(s_buffer, eluder_cap[rand() % 17]);
-  text_layer_set_text(s_cap_layer, s_buffer);
+  update_captain();
   text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
   
   //SHIP
-  meri_image = gbitmap_create_with_resource(RESOURCE_ID_ELUDER2);
-  rot = rot_bitmap_layer_create(meri_image);
+  ship_image = gbitmap_create_with_resource(RESOURCE_ID_ELUDER);
+  rot = rot_bitmap_layer_create(ship_image);
   GRect rbounds = layer_get_bounds((Layer*)rot);
   const GPoint center = grect_center_point(&bounds);
   GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
@@ -155,31 +171,3 @@ int main(void) {
   app_event_loop();
   deinit();
 }
-/*
-void handle_second_tick(struct tm *t, TimeUnits units_changed){
- 
-       
-        if(t->tm_sec == 0){ // Every minute
-               
-                rot_bitmap_layer_set_angle(minute_layer, t->tm_min * TRIG_MAX_ANGLE / 60);
-               
-               
-                if(t->tm_min%5 == 0){
-                        current_min_hand++;
-                        if(current_min_hand == 12) current_min_hand = 0;
-                        bitmap_layer_set_bitmap(thirty_min_layer, small_hands[current_min_hand]);
-                       
-                        if(t->tm_min%10 == 0){ // Every ten minutes
-                                rot_bitmap_layer_set_angle(hour_layer, t->tm_hour%12 * TRIG_MAX_ANGLE / 12 + t->tm_min * TRIG_MAX_ANGLE / (24*30));
-                       
-                            //Every hour
-                                if(t->tm_min == 0){
-                                        current_hr_hand++;
-                                        if(current_hr_hand == 12) current_hr_hand = 0;
-                                        bitmap_layer_set_bitmap(twelve_hour_layer, small_hands[current_hr_hand]);
-                                }
-                }      
-                }
-        }
-}
-*/

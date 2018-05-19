@@ -11,15 +11,158 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/mauler-big-000.png",
+                    "file": "images/stinger.png",
+                    "name": "STINGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/terminator.png",
+                    "name": "TERMINATOR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/intruder.png",
+                    "name": "INTRUDER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/jugger.png",
+                    "name": "JUGGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/dreadnought.png",
+                    "name": "DREADNOUGHT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/drone.png",
+                    "name": "DRONE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/torch.png",
+                    "name": "TORCH",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/penetrator.png",
+                    "name": "PENETRATOR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/blade.png",
+                    "name": "BLADE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/eluder.png",
+                    "name": "ELUDER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/probe.png",
+                    "name": "PROBE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/scout.png",
+                    "name": "SCOUT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/fury.png",
+                    "name": "FURY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis.png",
+                    "name": "NEMESIS",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avenger.png",
+                    "name": "AVENGER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/podship.png",
+                    "name": "PODSHIP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/ywing.png",
+                    "name": "YWING",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/xform.png",
+                    "name": "XFORM",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/trader.png",
+                    "name": "TRADER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/marauder.png",
+                    "name": "MARAUDER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/cruiser.png",
+                    "name": "CRUISER",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mauler.png",
                     "name": "MAULER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/eluder-cap-002.png",
-                    "memoryFormat": "8Bit",
-                    "name": "ELUDER2",
+                    "file": "images/avatar.png",
+                    "name": "AVATAR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/broodhome.png",
+                    "name": "BROODHOME",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/guardian.png",
+                    "name": "GUARDIAN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/skiff.png",
+                    "name": "SKIFF",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }
