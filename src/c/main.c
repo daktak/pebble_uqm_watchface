@@ -37,6 +37,7 @@ static ClaySettings settings;
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
+static TextLayer *s_insult_layer;
 static GBitmap *ship_image;
 static RotBitmapLayer *rot;
 //spathi
@@ -67,7 +68,7 @@ static char podship_cap[16][10]={"Blort","Chupp","Floos","Glish","Glob","Glush",
 static char nemesis_cap[16][10] = {"*Wet*","*Happy*","*Frumple*","*Camper*","*Loner*","*Dancer*","*Singer*","*Heavy*","*NewBoy*","*FatFun*","*Pepper*","*Hungry*","*Deep*","*Smell*","*Juice*","*Squirt*"};
 //pkunk
 static char fury_cap[16][10] = {"Awwky","Tweety","WudStok","Poppy","Brakky","Hooter","Buzzard","Polly","Ernie","Yompin","Fuzzy","Raven","Crow","Jay","Screech","Twitter"};
-static char pkunk_insult[14][7] = {"Baby","Dou-Dou","Fool","Idiot","Jerk","Looser","Moron","Nerd","Nitwit","Stupid","Twig","Whimp","Worm","Dummy",};
+static char pkunk_insult[14][8] = {"Baby","Dou-Dou","Fool","Idiot","Jerk","Looser","Moron","Nerd","Nitwit","Stupid","Twig","Whimp","Worm","Dummy",};
 //shofixti
 static char scout_cap[18][10] = {"Hiyata","Wasabe","Kudzu","Ichiban","Bonsai!","Genjiro","Ginzu","Busu","Gaijin","Daikon","Sushi","Naninani","Chimchim","Tora-3","Tofu","Kimba","Tanaka","Katana"};
 //slylandro
@@ -98,8 +99,15 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
 int random_race_int = 0;
+int current_insult = 0;
 Layer *window_layer;
 GRect bounds;
+
+static void update_insult(char *insult) {
+  static char s_buffer[8];
+  strcpy(s_buffer, insult);
+  text_layer_set_text(s_insult_layer, s_buffer);
+}
 
 static void update_captain(char *captain) {
   static char s_buffer[10];
@@ -264,6 +272,20 @@ static void change(int min) {
   if (settings.cap_change == min) {
     set_captain();
   }
+  
+  if (current_insult > 0) {
+    current_insult = -1;
+  } else if (current_insult < 0) {
+    update_insult("");
+    current_insult = 0;
+  }
+  
+  if ((settings.ship_rotate == 1)&&(random_race_int == 14)&&(current_insult==0)) {
+    if (rand()%30==1) {
+      current_insult = rand() % 14;
+      update_insult(pkunk_insult[current_insult]);
+    }
+  }
 }
 
 static void update_time() {
@@ -281,9 +303,9 @@ static void update_time() {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rotate(tick_time,1);
-  if(tick_time->tm_sec == 30){
-    change(30);
-  }
+
+  change(-1);
+  
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
     change(1);
@@ -331,6 +353,16 @@ static void main_window_load(Window *window) {
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
   
+  //Insult 
+  s_insult_layer = text_layer_create(
+      GRect(0, PBL_IF_ROUND_ELSE(50,44), bounds.size.w - PBL_IF_ROUND_ELSE(24,12), 40));
+  text_layer_set_background_color(s_insult_layer, GColorBlack);
+  text_layer_set_text_color(s_insult_layer, GColorWhite);
+  //text_layer_set_text(s_insult_layer, "Dou-Dou");
+  text_layer_set_font(s_insult_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_text_alignment(s_insult_layer, GTextAlignmentRight);
+  layer_add_child(window_layer, text_layer_get_layer(s_insult_layer));
+  
   //Captain Name
   s_cap_layer = text_layer_create(
       GRect(0, bounds.size.h - 32, bounds.size.w, 50));
@@ -347,7 +379,7 @@ static void main_window_load(Window *window) {
 // Initialize the default settings
 static void prv_default_settings() {
   settings.ship_rotate = 60;
-  settings.ship_change = 10;
+  settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
 }
