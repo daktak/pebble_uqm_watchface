@@ -12,8 +12,8 @@ module.exports = [
   },
   {
     "type": "select",
-    "messageKey": "TEMPERATURE_SIZE",
-    "label": "SHIP SELECTION",
+    "messageKey": "ShipSelection",
+    "label": "Ship selection",
     "defaultValue" : "0",
     "options": [
       { 
@@ -124,7 +124,7 @@ module.exports = [
   },
   {
     "type": "select",
-    "messageKey": "ship_change",
+    "messageKey": "ShipChange",
     "label": "Change ship every",
     "defaultValue" : "60",
     "options": [
@@ -151,8 +151,8 @@ module.exports = [
     ]
   },
   {
-    "type": "select",
-    "messageKey": "ship_rotate",
+    "type": "radiogroup",
+    "messageKey": "ShipRotate",
     "label": "Rotate ship every",
     "defaultValue" : "60",
     "options": [
@@ -172,7 +172,7 @@ module.exports = [
   },
   {
     "type": "select",
-    "messageKey": "cap_change",
+    "messageKey": "CapChange",
     "label": "Change captain every",
     "defaultValue" : "5",
     "options": [

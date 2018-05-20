@@ -138,9 +138,7 @@ static void set_race() {
 static void set_captain() {
   APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
-  log_int(random_race_int);
   set_race();
-  log_int(random_race_int);
   int def_rand = rand() % 16;
   switch (random_race_int) {
     case SPATHI:
@@ -284,14 +282,14 @@ static void change(int min) {
   } else if ((random_race_int == 11)&&(min=-1)) {
     //give a chace for the xform to switch to ywing and vica versa
     if (rand() % 20 == 1) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
+      //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
       set_ship();
     }
   } else if ((random_race_int == 11)&&(min==1)&&(settings.ship_rotate!=1)) {
     //give a chace for the xform to switch to ywing and vica versa
     //higher chance
     if (rand() % 2 == 1) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
+      //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
       set_ship();
     }
   }
@@ -419,9 +417,32 @@ static void prv_load_settings() {
 }
 
 //inbox
-static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
-  
+static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) { 
+  Tuple *ship_select_t = dict_find(iter, MESSAGE_KEY_ShipSelection);
+  Tuple *ship_change_t = dict_find(iter, MESSAGE_KEY_ShipChange);
+  Tuple *ship_rotate_t = dict_find(iter, MESSAGE_KEY_ShipRotate);
+  Tuple *cap_change_t = dict_find(iter, MESSAGE_KEY_CapChange);
+  if (ship_select_t) {
+    settings.ship_select = ship_select_t->value->int32;
+    log_int(settings.ship_select);
+  }
+  if (ship_rotate_t) {
+    settings.ship_rotate = ship_rotate_t->value->int32;
+    log_int(settings.ship_rotate);
+  }
+  if (ship_change_t) {
+    settings.ship_change = ship_change_t->value->int32;
+    log_int(settings.ship_change);
+  }
+  if (cap_change_t) {
+    int cap_change = cap_change_t->value->int32;
+    settings.cap_change = cap_change_t->value->int32;
+    log_int(settings.cap_change);
+    log_int(cap_change);
+  }
+//  prv_save_settings();
 }
+
 static void init() {
   prv_load_settings();
   // Create main Window element and assign to pointer

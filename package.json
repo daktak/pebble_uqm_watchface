@@ -12,10 +12,10 @@
         "displayName": "UQM_Watchface",
         "enableMultiJS": true,
         "messageKeys": [
-            "ship_selection",
-            "ship_rotate",
-            "ship_change",
-            "cap_change"
+            "ShipSelection",
+            "ShipRotate",
+            "ShipChange",
+            "CapChange"
         ],
         "projectType": "native",
         "resources": {
