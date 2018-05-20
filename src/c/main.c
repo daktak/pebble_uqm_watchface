@@ -99,6 +99,7 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
 int random_race_int = 0;
+int ship_int = 0;
 int current_insult = 0;
 Layer *window_layer;
 GRect bounds;
@@ -229,17 +230,18 @@ static void rotate(struct tm *tick_time, int min) {
 static void set_ship(){
   APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
+  int old_ship = ship_int;
   set_race();
-  int ship_int = random_race_int;
-  // 50 / 50 chance mmrnhrm is ywing
+  ship_int = random_race_int;
+  // chance mmrnhrm is ywing
   if (random_race_int == 11) {
-    if (rand() %2 == 1) {
+    if (rand() %3 == 1) {
       APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
       ship_int = 26;
     }
   }
-  if (ship_int != old_race) {
-
+  
+  if (ship_int != old_ship) {
     layer_remove_from_parent((Layer*)rot);
     ship_image = gbitmap_create_with_resource(races[ship_int-1]);
     rot = rot_bitmap_layer_create(ship_image);
@@ -255,7 +257,9 @@ static void set_ship(){
     struct tm *tick_time = localtime(&temp); 
     rotate(tick_time, settings.ship_rotate);
     layer_add_child(window_layer, (Layer*)rot);
-    
+  }
+  
+  if (old_race != random_race_int) {
     set_captain();
   }
 }
@@ -265,9 +269,19 @@ static void change(int min) {
   if (settings.ship_change == min) {
     random_race_int = 0;
     set_ship();
-  } else if ((random_race_int == 11)&&(min=1)) {
+  } else if ((random_race_int == 11)&&(min=-1)) {
     //give a chace for the xform to switch to ywing and vica versa
-    set_ship();
+    if (rand() % 20 == 1) {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
+      set_ship();
+    }
+  } else if ((random_race_int == 11)&&(min==1)&&(settings.ship_rotate!=1)) {
+    //give a chace for the xform to switch to ywing and vica versa
+    //higher chance
+    if (rand() % 2 == 1) {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
+      set_ship();
+    }
   }
   if (settings.cap_change == min) {
     set_captain();
@@ -282,6 +296,7 @@ static void change(int min) {
   
   if ((settings.ship_rotate == 1)&&(random_race_int == 14)&&(current_insult==0)) {
     if (rand()%30==1) {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
       current_insult = rand() % 14;
       update_insult(pkunk_insult[current_insult]);
     }
@@ -391,9 +406,17 @@ static void prv_load_settings() {
   //persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
 
+//inbox
+static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
+  
+}
 static void init() {
   prv_load_settings();
   // Create main Window element and assign to pointer
+  // Open AppMessage connection
+  app_message_register_inbox_received(prv_inbox_received_handler);
+  app_message_open(128, 128);
+  
   s_main_window = window_create();
   window_set_background_color(s_main_window, GColorBlack);
   // Set handlers to manage the elements inside the Window
