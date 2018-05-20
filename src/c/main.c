@@ -33,6 +33,8 @@ typedef struct ClaySettings {
   int ship_change;
   int ship_rotate;
   int cap_change;
+  int last_ship;
+  int last_race;
 } ClaySettings;
 static ClaySettings settings;
 
@@ -100,8 +102,8 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
-int random_race_int = 0;
-int ship_int = 0;
+int random_race_int;
+int ship_int;
 int current_insult = 0;
 Layer *window_layer;
 GRect bounds;
@@ -224,6 +226,8 @@ static void set_captain() {
 }
 
 static void rotate(struct tm *tick_time, int min) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "rotate");
+  log_int(min);
   int unit = 0;
   if (min==1){
     unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
@@ -359,6 +363,7 @@ static void main_window_unload(Window *window) {
   gbitmap_destroy(ship_image);
   rot_bitmap_layer_destroy(rot);
   text_layer_destroy(s_cap_layer);
+  text_layer_destroy(s_insult_layer);
 }
 
 static void main_window_load(Window *window) {
@@ -407,15 +412,30 @@ static void prv_default_settings() {
   settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
+  settings.last_ship = 0;
+  settings.last_race = 0;
 }
 
 static void prv_load_settings() {
   // Load the default settings
   prv_default_settings();
   // Read settings from persistent storage, if they exist
-  //persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+  persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+  ship_int = settings.last_ship;
+  random_race_int = settings.last_race;
 }
 
+static void prv_save_settings() {
+  persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
+}
+
+static void set_ticker() {
+  if (settings.ship_rotate == 1) {
+    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  } else {
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  };
+}
 //inbox
 static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) { 
   Tuple *ship_select_t = dict_find(iter, MESSAGE_KEY_ShipSelection);
@@ -423,24 +443,40 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
   Tuple *ship_rotate_t = dict_find(iter, MESSAGE_KEY_ShipRotate);
   Tuple *cap_change_t = dict_find(iter, MESSAGE_KEY_CapChange);
   if (ship_select_t) {
-    settings.ship_select = ship_select_t->value->int32;
+    settings.ship_select = atoi(ship_select_t->value->cstring);
     log_int(settings.ship_select);
+    //APP_LOG(APP_LOG_LEVEL_INFO, ship_select_t->value->cstring);
   }
   if (ship_rotate_t) {
-    settings.ship_rotate = ship_rotate_t->value->int32;
+    int old_rotate  = settings.ship_rotate;
+    settings.ship_rotate = atoi(ship_rotate_t->value->cstring);
     log_int(settings.ship_rotate);
+    
+    //redraw ship rotation
+    if (old_rotate != settings.ship_rotate) {
+      time_t temp = time(NULL);
+      struct tm *tick_time = localtime(&temp); 
+      rotate(tick_time, settings.ship_rotate);
+    }
+    
+    //reset up timer service
+    if ((old_rotate==1)&&(settings.ship_rotate!=1)) {
+      tick_timer_service_unsubscribe();
+      set_ticker();
+    } else if ((old_rotate!=1)&&(settings.ship_rotate==1)) {
+      tick_timer_service_unsubscribe();
+      set_ticker();
+    }
   }
   if (ship_change_t) {
-    settings.ship_change = ship_change_t->value->int32;
+    settings.ship_change = atoi(ship_change_t->value->cstring);
     log_int(settings.ship_change);
   }
   if (cap_change_t) {
-    int cap_change = cap_change_t->value->int32;
-    settings.cap_change = cap_change_t->value->int32;
+    settings.cap_change = atoi(cap_change_t->value->cstring);
     log_int(settings.cap_change);
-    log_int(cap_change);
   }
-//  prv_save_settings();
+  prv_save_settings();
 }
 
 static void init() {
@@ -461,12 +497,7 @@ static void init() {
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
   // Register with TickTimerService
-  // change to SECOND_UNIT if rotating needed
-  if (settings.ship_rotate == 1) {
-    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
-  } else {
-    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-  };
+  set_ticker();
   // Make sure the time is displayed from the start
   update_time();
 }
