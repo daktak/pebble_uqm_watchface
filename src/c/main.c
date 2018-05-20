@@ -33,8 +33,8 @@ typedef struct ClaySettings {
   int ship_change;
   int ship_rotate;
   int cap_change;
-  int last_ship;
-  int last_race;
+  //int last_ship;
+  //int last_race;
 } ClaySettings;
 static ClaySettings settings;
 
@@ -135,6 +135,7 @@ static void set_race() {
   } else {
     random_race_int = settings.ship_select;
   }
+  //settings.last_race = random_race_int;
 }
 
 static void set_captain() {
@@ -412,8 +413,8 @@ static void prv_default_settings() {
   settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
-  settings.last_ship = 0;
-  settings.last_race = 0;
+  //settings.last_ship = 0;
+  //settings.last_race = 0;
 }
 
 static void prv_load_settings() {
@@ -421,8 +422,8 @@ static void prv_load_settings() {
   prv_default_settings();
   // Read settings from persistent storage, if they exist
   persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
-  ship_int = settings.last_ship;
-  random_race_int = settings.last_race;
+  //ship_int = settings.last_ship;
+  //random_race_int = settings.last_race;
 }
 
 static void prv_save_settings() {
@@ -443,9 +444,12 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
   Tuple *ship_rotate_t = dict_find(iter, MESSAGE_KEY_ShipRotate);
   Tuple *cap_change_t = dict_find(iter, MESSAGE_KEY_CapChange);
   if (ship_select_t) {
+    int old_ship = settings.ship_select;
     settings.ship_select = atoi(ship_select_t->value->cstring);
     log_int(settings.ship_select);
-    //APP_LOG(APP_LOG_LEVEL_INFO, ship_select_t->value->cstring);
+    if (old_ship != settings.ship_select) {
+      set_ship();
+    }
   }
   if (ship_rotate_t) {
     int old_rotate  = settings.ship_rotate;
