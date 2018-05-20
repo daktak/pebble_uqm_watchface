@@ -26,6 +26,8 @@
 #define YEHAT 24
 #define ZOQFOTPIK 25
 
+#define SETTINGS_KEY 1
+
 typedef struct ClaySettings {
   int ship_select;
   int ship_change;
@@ -104,6 +106,12 @@ int current_insult = 0;
 Layer *window_layer;
 GRect bounds;
 
+static void log_int(int num) {
+  static char s_buffer[10];
+  snprintf(s_buffer, 10, "%i", num);
+  APP_LOG(APP_LOG_LEVEL_INFO, s_buffer);
+}
+
 static void update_insult(char *insult) {
   static char s_buffer[8];
   strcpy(s_buffer, insult);
@@ -117,9 +125,11 @@ static void update_captain(char *captain) {
 }
 
 static void set_race() {
-  if (((random_race_int <= 0)||(random_race_int > 26))&&(settings.ship_select == 0)) {
-    APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
-    random_race_int = rand() % 25 +1;
+  if (settings.ship_select == 0) {
+    if ((random_race_int <= 0)||(random_race_int > 26)) {
+      APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
+      random_race_int = rand() % 25 +1;
+    }
   } else {
     random_race_int = settings.ship_select;
   }
@@ -128,7 +138,9 @@ static void set_race() {
 static void set_captain() {
   APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
+  log_int(random_race_int);
   set_race();
+  log_int(random_race_int);
   int def_rand = rand() % 16;
   switch (random_race_int) {
     case SPATHI:
