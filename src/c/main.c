@@ -1,5 +1,14 @@
 #include <pebble.h>
-
+/*
+ TODO
+ - Rotate Orz turret
+ - Remember last ship and not redraw
+ - Remember last captain name
+ - Black and white support
+ - refactor
+ - font
+ - round bring time down a tad
+ */
 #define SPATHI 1
 #define ANDROSYNTH 2
 #define ARILOU 3
@@ -25,6 +34,7 @@
 #define VUX 23
 #define YEHAT 24
 #define ZOQFOTPIK 25
+#define YWING 26
 
 #define SETTINGS_KEY 1
 
@@ -33,6 +43,7 @@ typedef struct ClaySettings {
   int ship_change;
   int ship_rotate;
   int cap_change;
+  int turret_rotate;
   //int last_ship;
   //int last_race;
 } ClaySettings;
@@ -44,6 +55,8 @@ static TextLayer *s_cap_layer;
 static TextLayer *s_insult_layer;
 static GBitmap *ship_image;
 static RotBitmapLayer *rot;
+static GBitmap *turret_image;
+static RotBitmapLayer *rott;
 //spathi
 static char eluder_cap[17][10]={"Thwil","Pwappy","Phwiff","Wiffy","Plibnik","Snurfel","Kwimp","Pkunky","Jinkeze","Thintho","Rupatup","Nargle","Phlendo","Snelopy","Bwinkin","Whuff","Fwiffo"};
 //androsynth
@@ -226,6 +239,24 @@ static void set_captain() {
   
 }
 
+static void rotate_turret(struct tm *tick_time, int min) {
+  if (random_race_int == ORZ) {
+    APP_LOG(APP_LOG_LEVEL_INFO, "rotate turret");
+    log_int(min);
+    int unit = 0;
+    if (min==1){
+      unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
+    } else if (min==60) {
+      unit = tick_time->tm_min * TRIG_MAX_ANGLE / 60;
+    } else if (min==12) {
+      unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30); 
+    }
+    if (settings.turret_rotate == min) {
+      rot_bitmap_layer_set_angle(rott, unit);
+    }
+  }
+}
+
 static void rotate(struct tm *tick_time, int min) {
   APP_LOG(APP_LOG_LEVEL_INFO, "rotate");
   log_int(min);
@@ -249,22 +280,23 @@ static void set_ship(){
   set_race();
   ship_int = random_race_int;
   // chance mmrnhrm is ywing
-  if (random_race_int == 11) {
+  if (random_race_int == MMRNHRM) {
     if (rand() %3 == 1) {
       APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
-      ship_int = 26;
+      ship_int = YWING;
     }
   }
   
   if (ship_int != old_ship) {
+    layer_remove_from_parent((Layer*)rott);
     layer_remove_from_parent((Layer*)rot);
     ship_image = gbitmap_create_with_resource(races[ship_int-1]);
     rot = rot_bitmap_layer_create(ship_image);
     GRect rbounds = layer_get_bounds((Layer*)rot);
     const GPoint center = grect_center_point(&bounds);
     GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
-    image_frame.origin.x -= rbounds.size.w/2; //rotlayer does something odd with positioning, and this is the only way I could correct it
-    image_frame.origin.y -= rbounds.size.h/2; //-17
+    image_frame.origin.x -= rbounds.size.w/2; 
+    image_frame.origin.y -= rbounds.size.h/2; 
     layer_set_frame((Layer*)rot,image_frame);
     rot_bitmap_set_compositing_mode(rot, GCompOpSet);
     //set initial angle,
@@ -272,6 +304,13 @@ static void set_ship(){
     struct tm *tick_time = localtime(&temp); 
     rotate(tick_time, settings.ship_rotate);
     layer_add_child(window_layer, (Layer*)rot);
+    if (ship_int == ORZ) {
+      //set initial angle,
+      time_t temp = time(NULL);
+      struct tm *tick_time = localtime(&temp); 
+      rotate_turret(tick_time,settings.turret_rotate);
+      layer_add_child(window_layer, (Layer*)rott);
+    }
   }
   
   if (old_race != random_race_int) {
@@ -284,13 +323,14 @@ static void change(int min) {
   if (settings.ship_change == min) {
     random_race_int = 0;
     set_ship();
-  } else if ((random_race_int == 11)&&(min=-1)) {
+  } else if ((random_race_int == MMRNHRM)&&(min=-1)) {
     //give a chace for the xform to switch to ywing and vica versa
     if (rand() % 20 == 1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
       set_ship();
     }
-  } else if ((random_race_int == 11)&&(min==1)&&(settings.ship_rotate!=1)) {
+  } else if ((random_race_int == MMRNHRM)&&(min==1)&&
+             ((settings.ship_rotate!=1)||((settings.turret_rotate!=1)&&(random_race_int=ORZ)))) {
     //give a chace for the xform to switch to ywing and vica versa
     //higher chance
     if (rand() % 2 == 1) {
@@ -333,17 +373,19 @@ static void update_time() {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rotate(tick_time,1);
-
+  rotate_turret(tick_time,1);
   change(-1);
   
   if(tick_time->tm_sec == 0){ // Every minute
     update_time();
     change(1);
     rotate(tick_time,60);
+    rotate_turret(tick_time,60);
     if(tick_time->tm_min%5 == 0){
       change(5);
       if(tick_time->tm_min%10 == 0){ // Every ten minutes
         rotate(tick_time,12);
+        rotate_turret(tick_time,12);
         change(10);
         if(tick_time->tm_min == 0){ //Every hour
           change(60);
@@ -404,6 +446,17 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
   
+  //Nemesis Turret
+  turret_image = gbitmap_create_with_resource(RESOURCE_ID_NEMESIS_TURRET);
+  rott = rot_bitmap_layer_create(turret_image);
+  GRect rbounds = layer_get_bounds((Layer*)rott);
+  const GPoint center = grect_center_point(&bounds);
+  GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
+  image_frame.origin.x -= rbounds.size.w/2; 
+  image_frame.origin.y -= rbounds.size.h/2; 
+  layer_set_frame((Layer*)rott,image_frame);
+  rot_bitmap_set_compositing_mode(rott, GCompOpSet);
+  
   //SHIP
   set_ship();
 }
@@ -413,6 +466,7 @@ static void prv_default_settings() {
   settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
+  settings.turret_rotate = 1;
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }
@@ -421,7 +475,7 @@ static void prv_load_settings() {
   // Load the default settings
   prv_default_settings();
   // Read settings from persistent storage, if they exist
-  persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+  //TODOpersist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
   //ship_int = settings.last_ship;
   //random_race_int = settings.last_race;
 }
@@ -431,7 +485,7 @@ static void prv_save_settings() {
 }
 
 static void set_ticker() {
-  if (settings.ship_rotate == 1) {
+  if ((settings.ship_rotate == 1)||(settings.turret_rotate == 1)) {
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
   } else {
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
@@ -464,10 +518,10 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
     }
     
     //reset up timer service
-    if ((old_rotate==1)&&(settings.ship_rotate!=1)) {
+    if ((old_rotate==1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
       tick_timer_service_unsubscribe();
       set_ticker();
-    } else if ((old_rotate!=1)&&(settings.ship_rotate==1)) {
+    } else if ((old_rotate!=1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
       tick_timer_service_unsubscribe();
       set_ticker();
     }
