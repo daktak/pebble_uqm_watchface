@@ -1,7 +1,6 @@
 #include <pebble.h>
 /*
  TODO
- - Rotate Orz turret
  - Remember last ship and not redraw
  - Remember last captain name
  - Black and white support
@@ -121,28 +120,32 @@ int current_insult = 0;
 Layer *window_layer;
 GRect bounds;
 
+//helper - put int in buffer and log
 static void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
   APP_LOG(APP_LOG_LEVEL_INFO, s_buffer);
 }
 
+//PKUNK set string
 static void update_insult(char *insult) {
   static char s_buffer[8];
   strcpy(s_buffer, insult);
   text_layer_set_text(s_insult_layer, s_buffer);
 }
 
+//Update captain name
 static void update_captain(char *captain) {
   static char s_buffer[10];
   strcpy(s_buffer, captain);
   text_layer_set_text(s_cap_layer, s_buffer);
 }
 
+//Randomize the race
 static void set_race() {
   if (settings.ship_select == 0) {
     if ((random_race_int <= 0)||(random_race_int > 26)) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
+      //APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
       random_race_int = rand() % 25 +1;
     }
   } else {
@@ -151,8 +154,9 @@ static void set_race() {
   //settings.last_race = random_race_int;
 }
 
+//Randomly select the captains name
 static void set_captain() {
-  APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
+  //APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
   set_race();
   int def_rand = rand() % 16;
@@ -239,6 +243,7 @@ static void set_captain() {
   
 }
 
+//ORZ Nemesis Turret rotation
 static void rotate_turret(struct tm *tick_time, int min) {
   if (random_race_int == ORZ) {
     APP_LOG(APP_LOG_LEVEL_INFO, "rotate turret");
@@ -257,6 +262,7 @@ static void rotate_turret(struct tm *tick_time, int min) {
   }
 }
 
+//Rotate the ship body
 static void rotate(struct tm *tick_time, int min) {
   APP_LOG(APP_LOG_LEVEL_INFO, "rotate");
   log_int(min);
@@ -273,6 +279,7 @@ static void rotate(struct tm *tick_time, int min) {
   }
 }
 
+//Change the ship image and rotate to correct orientation
 static void set_ship(){
   APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
@@ -318,8 +325,9 @@ static void set_ship(){
   }
 }
 
+//initiate the changes
 static void change(int min) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "change");
+  //APP_LOG(APP_LOG_LEVEL_INFO, "change");
   if (settings.ship_change == min) {
     random_race_int = 0;
     set_ship();
@@ -349,7 +357,7 @@ static void change(int min) {
     current_insult = 0;
   }
   
-  if ((settings.ship_rotate == 1)&&(random_race_int == 14)&&(current_insult==0)) {
+  if ((settings.ship_rotate == 1)&&(random_race_int == PKUNK)&&(current_insult==0)) {
     if (rand()%30==1) {
       APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
       current_insult = rand() % 14;
@@ -358,6 +366,7 @@ static void change(int min) {
   }
 }
 
+//Time layer
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL);
@@ -371,6 +380,7 @@ static void update_time() {
   text_layer_set_text(s_time_layer, s_buffer);
 }
 
+//trigger timing updates
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rotate(tick_time,1);
   rotate_turret(tick_time,1);
@@ -395,11 +405,13 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   }
 }
 
+//deint
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
 }
 
+//destroy
 static void main_window_unload(Window *window) {
   // Destroy TextLayer
   text_layer_destroy(s_time_layer);
@@ -407,8 +419,11 @@ static void main_window_unload(Window *window) {
   rot_bitmap_layer_destroy(rot);
   text_layer_destroy(s_cap_layer);
   text_layer_destroy(s_insult_layer);
+  gbitmap_destroy(turret_image);
+  rot_bitmap_layer_destroy(rott);
 }
 
+//start
 static void main_window_load(Window *window) {
   // Get information about the Window
   window_layer = window_get_root_layer(window);
@@ -416,7 +431,7 @@ static void main_window_load(Window *window) {
 
   // Time
   s_time_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(8, 2), bounds.size.w, 50)); //58.52
+      GRect(0, PBL_IF_ROUND_ELSE(10, 2), bounds.size.w, 50)); //58.52
   // Improve the layout to be more like a watchface
   text_layer_set_background_color(s_time_layer, GColorBlack);
   text_layer_set_text_color(s_time_layer, GColorWhite);
@@ -475,7 +490,7 @@ static void prv_load_settings() {
   // Load the default settings
   prv_default_settings();
   // Read settings from persistent storage, if they exist
-  //TODOpersist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+  persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
   //ship_int = settings.last_ship;
   //random_race_int = settings.last_race;
 }

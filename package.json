@@ -15,7 +15,8 @@
             "ShipSelection",
             "ShipRotate",
             "ShipChange",
-            "CapChange"
+            "CapChange",
+            "TurretRotate"
         ],
         "projectType": "native",
         "resources": {

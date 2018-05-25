@@ -171,6 +171,26 @@ module.exports = [
     ]
   },
   {
+    "type": "radiogroup",
+    "messageKey": "TurretRotate",
+    "label": "Rotate turret every",
+    "defaultValue" : "60",
+    "options": [
+      { 
+        "label": "Minute", 
+        "value": "1"
+      },
+      { 
+        "label": "60 Minutes", 
+        "value": "60"
+      },
+      { 
+        "label": "12 Hours", 
+        "value": "12"
+      }
+    ]
+  },
+  {
     "type": "select",
     "messageKey": "CapChange",
     "label": "Change captain every",
