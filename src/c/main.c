@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "src/c/main.h"
 /*
  TODO
  - Remember last ship and not redraw
@@ -294,6 +295,7 @@ static void set_ship(){
   }
   
   if (ship_int != old_ship) {
+    reset_timer();
     layer_remove_from_parent((Layer*)rott);
     layer_remove_from_parent((Layer*)rot);
     ship_image = gbitmap_create_with_resource(races[ship_int-1]);
@@ -404,6 +406,25 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   }
 }
 
+static void set_ticker() {
+  if ((settings.ship_rotate == 1)||(settings.turret_rotate == 1)) {
+    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  } else {
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  };
+}
+
+static void reset_timer(int old_rotate) {
+    //reset up timer service
+    if ((old_rotate==1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
+      tick_timer_service_unsubscribe();
+      set_ticker();
+    } else if ((old_rotate!=1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
+      tick_timer_service_unsubscribe();
+      set_ticker();
+    }
+}
+
 //deint
 static void deinit() {
   // Destroy Window
@@ -498,24 +519,7 @@ static void prv_save_settings() {
   persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
 
-static void set_ticker() {
-  if ((settings.ship_rotate == 1)||(settings.turret_rotate == 1)) {
-    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
-  } else {
-    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-  };
-}
 
-static void reset_timer(int old_rotate) {
-    //reset up timer service
-    if ((old_rotate==1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
-      tick_timer_service_unsubscribe();
-      set_ticker();
-    } else if ((old_rotate!=1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
-      tick_timer_service_unsubscribe();
-      set_ticker();
-    }
-}
 
 //inbox
 static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) { 
