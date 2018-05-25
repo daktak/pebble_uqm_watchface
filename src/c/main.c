@@ -6,7 +6,6 @@
  - Black and white support
  - refactor
  - font
- - round bring time down a tad
  */
 #define SPATHI 1
 #define ANDROSYNTH 2
@@ -246,8 +245,8 @@ static void set_captain() {
 //ORZ Nemesis Turret rotation
 static void rotate_turret(struct tm *tick_time, int min) {
   if (random_race_int == ORZ) {
-    APP_LOG(APP_LOG_LEVEL_INFO, "rotate turret");
-    log_int(min);
+    //APP_LOG(APP_LOG_LEVEL_INFO, "rotate turret");
+    //log_int(min);
     int unit = 0;
     if (min==1){
       unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
@@ -264,8 +263,8 @@ static void rotate_turret(struct tm *tick_time, int min) {
 
 //Rotate the ship body
 static void rotate(struct tm *tick_time, int min) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "rotate");
-  log_int(min);
+  //APP_LOG(APP_LOG_LEVEL_INFO, "rotate");
+  //log_int(min);
   int unit = 0;
   if (min==1){
     unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
@@ -281,7 +280,7 @@ static void rotate(struct tm *tick_time, int min) {
 
 //Change the ship image and rotate to correct orientation
 static void set_ship(){
-  APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
+  //APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
   int old_ship = ship_int;
   set_race();
@@ -289,7 +288,7 @@ static void set_ship(){
   // chance mmrnhrm is ywing
   if (random_race_int == MMRNHRM) {
     if (rand() %3 == 1) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
+      //APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
       ship_int = YWING;
     }
   }
@@ -303,7 +302,7 @@ static void set_ship(){
     const GPoint center = grect_center_point(&bounds);
     GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
     image_frame.origin.x -= rbounds.size.w/2; 
-    image_frame.origin.y -= rbounds.size.h/2; 
+    image_frame.origin.y -= rbounds.size.h/2 - 3;
     layer_set_frame((Layer*)rot,image_frame);
     rot_bitmap_set_compositing_mode(rot, GCompOpSet);
     //set initial angle,
@@ -359,7 +358,7 @@ static void change(int min) {
   
   if ((settings.ship_rotate == 1)&&(random_race_int == PKUNK)&&(current_insult==0)) {
     if (rand()%30==1) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
+      //APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
       current_insult = rand() % 14;
       update_insult(pkunk_insult[current_insult]);
     }
@@ -468,7 +467,7 @@ static void main_window_load(Window *window) {
   const GPoint center = grect_center_point(&bounds);
   GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
   image_frame.origin.x -= rbounds.size.w/2; 
-  image_frame.origin.y -= rbounds.size.h/2; 
+  image_frame.origin.y -= rbounds.size.h/2 - 3;
   layer_set_frame((Layer*)rott,image_frame);
   rot_bitmap_set_compositing_mode(rott, GCompOpSet);
   
@@ -515,7 +514,7 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
   if (ship_select_t) {
     int old_ship = settings.ship_select;
     settings.ship_select = atoi(ship_select_t->value->cstring);
-    log_int(settings.ship_select);
+    //log_int(settings.ship_select);
     if (old_ship != settings.ship_select) {
       set_ship();
     }
@@ -523,7 +522,7 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
   if (ship_rotate_t) {
     int old_rotate  = settings.ship_rotate;
     settings.ship_rotate = atoi(ship_rotate_t->value->cstring);
-    log_int(settings.ship_rotate);
+    //log_int(settings.ship_rotate);
     
     //redraw ship rotation
     if (old_rotate != settings.ship_rotate) {
@@ -543,11 +542,11 @@ static void prv_inbox_received_handler(DictionaryIterator *iter, void *context) 
   }
   if (ship_change_t) {
     settings.ship_change = atoi(ship_change_t->value->cstring);
-    log_int(settings.ship_change);
+    //log_int(settings.ship_change);
   }
   if (cap_change_t) {
     settings.cap_change = atoi(cap_change_t->value->cstring);
-    log_int(settings.cap_change);
+    //log_int(settings.cap_change);
   }
   prv_save_settings();
 }
