@@ -1,7 +1,7 @@
 #include <pebble.h>
-#include "src/c/constants.h"
+#include "src/c/races.h"
 #include "src/c/main.h"
-#include "src/c/uqm.h"
+#include "src/c/captain.h"
 
 //spathi
 static char eluder_cap[17][10]={"Thwil","Pwappy","Phwiff","Wiffy","Plibnik","Snurfel","Kwimp","Pkunky","Jinkeze","Thintho","Rupatup","Nargle","Phlendo","Snelopy","Bwinkin","Whuff","Fwiffo"};
@@ -31,6 +31,7 @@ static char podship_cap[16][10]={"Blort","Chupp","Floos","Glish","Glob","Glush",
 static char nemesis_cap[16][10] = {"*Wet*","*Happy*","*Frumple*","*Camper*","*Loner*","*Dancer*","*Singer*","*Heavy*","*NewBoy*","*FatFun*","*Pepper*","*Hungry*","*Deep*","*Smell*","*Juice*","*Squirt*"};
 //pkunk
 static char fury_cap[16][10] = {"Awwky","Tweety","WudStok","Poppy","Brakky","Hooter","Buzzard","Polly","Ernie","Yompin","Fuzzy","Raven","Crow","Jay","Screech","Twitter"};
+static char pkunk_insult[14][8] = {"Baby","Dou-Dou","Fool","Idiot","Jerk","Looser","Moron","Nerd","Nitwit","Stupid","Twig","Whimp","Worm","Dummy",};
 //shofixti
 static char scout_cap[18][10] = {"Hiyata","Wasabe","Kudzu","Ichiban","Bonsai!","Genjiro","Ginzu","Busu","Gaijin","Daikon","Sushi","Naninani","Chimchim","Tora-3","Tofu","Kimba","Tanaka","Katana"};
 //slylandro
@@ -55,10 +56,10 @@ static char terminator_cap[16][10] = {"Heep-eep","Feep-eep","Reep-eep","Yeep-eep
 static char stinger_cap[16][8] = {"NikNak","FipPat","DipPak","FatPot","ZikFat","PukYor","TopNik","PorKoo","TikTak","RinTin","FitFap","TotToe","ZipZak","TikTok","MikMok","SikSok"};
 
 //Randomly select the captains name
-void set_captain(int random_race_int) {
+char *set_captain() {
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
-  set_race();
+  int random_race_int = set_race();
   int def_rand = rand() % 16;
   switch (random_race_int) {
     case SPATHI:
@@ -139,6 +140,12 @@ void set_captain(int random_race_int) {
     default:
       current_cap = "daktak";
   }
-  update_captain(current_cap);
+  return current_cap;
+  //update_captain(current_cap);
   
+}
+
+char* get_insult() {
+      int current_insult = rand() % 14;
+      return pkunk_insult[current_insult];
 }

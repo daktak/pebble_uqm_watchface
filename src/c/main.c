@@ -1,6 +1,6 @@
 #include <pebble.h>
-#include "src/c/constants.h"
-#include "src/c/uqm.h"
+#include "src/c/races.h"
+#include "src/c/captain.h"
 #include "src/c/main.h"
 /*
  TODO
@@ -32,8 +32,6 @@ static GBitmap *ship_image;
 static RotBitmapLayer *rot;
 static GBitmap *turret_image;
 static RotBitmapLayer *rott;
-
-static char pkunk_insult[14][8] = {"Baby","Dou-Dou","Fool","Idiot","Jerk","Looser","Moron","Nerd","Nitwit","Stupid","Twig","Whimp","Worm","Dummy",};
 
 static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SKIFF, RESOURCE_ID_BROODHOME, RESOURCE_ID_AVATAR, RESOURCE_ID_MAULER,
                         RESOURCE_ID_CRUISER, RESOURCE_ID_AVENGER, RESOURCE_ID_MARAUDER, RESOURCE_ID_TRADER, RESOURCE_ID_XFORM, RESOURCE_ID_PODSHIP, 
@@ -70,7 +68,7 @@ void update_captain(char *captain) {
 }
 
 //Randomize the race
-void set_race() {
+int set_race() {
   if (settings.ship_select == 0) {
     if ((random_race_int <= 0)||(random_race_int > 26)) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Randomizing race");
@@ -80,6 +78,7 @@ void set_race() {
     random_race_int = settings.ship_select;
   }
   //settings.last_race = random_race_int;
+  return random_race_int;
 }
 
 
@@ -124,8 +123,8 @@ static void set_ship(){
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
   int old_ship = ship_int;
-  set_race();
-  ship_int = random_race_int;
+  ship_int = set_race();
+  //ship_int = random_race_int;
   // chance mmrnhrm is ywing
   if (random_race_int == MMRNHRM) {
     if (rand() %3 == 1) {
@@ -162,7 +161,7 @@ static void set_ship(){
   }
   
   if (old_race != random_race_int) {
-    set_captain(random_race_int);
+    update_captain(set_captain());
   }
 }
 
@@ -188,7 +187,7 @@ static void change(int min) {
     }
   }
   if (settings.cap_change == min) {
-    set_captain(random_race_int);
+    update_captain(set_captain());
   }
   
   if (current_insult > 0) {
@@ -201,8 +200,8 @@ static void change(int min) {
   if ((settings.ship_rotate == 1)&&(random_race_int == PKUNK)&&(current_insult==0)) {
     if (rand()%30==1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
-      current_insult = rand() % 14;
-      update_insult(pkunk_insult[current_insult]);
+      current_insult = 1;
+      update_insult(get_insult());
     }
   }
 }
