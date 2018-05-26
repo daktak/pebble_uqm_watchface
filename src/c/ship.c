@@ -66,7 +66,8 @@ void set_ship(ClaySettings settings){
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
   int old_ship = ship_int;
-  ship_int = set_race();
+  random_race_int = set_race();
+  ship_int = random_race_int;
   //ship_int = random_race_int;
   // chance mmrnhrm is ywing
   if (random_race_int == MMRNHRM) {
