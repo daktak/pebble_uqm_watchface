@@ -59,7 +59,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
       struct tm *tick_time = localtime(&temp); 
       rotate_turret(tick_time, settings.turret_rotate);
     }
-    reset_timer(old_rotate);
+    reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
   }
   if (ship_rotate_t) {
     int old_rotate  = settings.ship_rotate;
@@ -73,7 +73,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
       rotate(tick_time, settings.ship_rotate);
     }
     
-    reset_timer(old_rotate);
+    reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
   }
   if (ship_change_t) {
     settings.ship_change = atoi(ship_change_t->value->cstring);

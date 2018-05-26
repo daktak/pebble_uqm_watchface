@@ -3,13 +3,13 @@
 #include "src/c/captain.h"
 #include "src/c/main.h"
 #include "src/c/settings.h"
+
 /*
  TODO
  - Remember last ship and not redraw
  - Remember last captain name
  - Black and white support
- - refactor
- - font
+ - improve ship resolution
  */
 
 static Window *s_main_window;
@@ -129,7 +129,7 @@ void set_ship(ClaySettings settings){
   }
   
   if (ship_int != old_ship) {
-    reset_timer(settings.ship_rotate);
+    reset_timer(settings.ship_rotate, settings.ship_rotate, settings.turret_rotate);
     layer_remove_from_parent((Layer*)rott);
     layer_remove_from_parent((Layer*)rot);
     ship_image = gbitmap_create_with_resource(races[ship_int-1]);
@@ -250,13 +250,12 @@ static void set_ticker() {
   };
 }
 
-void reset_timer(int old_rotate) {
-    ClaySettings settings = get_settings();
+void reset_timer(int old_rotate, int ship_rotate, int turret_rotate) {
     //reset up timer service
-    if ((old_rotate==1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
+    if ((old_rotate==1)&& ((ship_rotate == 1)||(turret_rotate == 1))) {
       tick_timer_service_unsubscribe();
       set_ticker();
-    } else if ((old_rotate!=1)&& ((settings.ship_rotate == 1)||(settings.turret_rotate == 1))) {
+    } else if ((old_rotate!=1)&& ((ship_rotate == 1)||(turret_rotate == 1))) {
       tick_timer_service_unsubscribe();
       set_ticker();
     }

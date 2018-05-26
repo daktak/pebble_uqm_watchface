@@ -1,6 +1,6 @@
 #pragma once
 #include "src/c/settings.h"
-void reset_timer(int old_rotate);
+void reset_timer(int old_rotate, int ship_rotate, int turret_rotate);
 int set_race();
 void set_ship(ClaySettings settings);
 void rotate(struct tm *tick_time, int min) ;
