@@ -1,14 +1,22 @@
 #include <pebble.h>
+
 #include "settings.h"
 #include "src/c/main.h"
 #include "src/c/races.h"
 
-
 static ClaySettings settings;
+
+/* helper - put int in buffer and log
+void log_int(int num) {
+  static char s_buffer[10];
+  snprintf(s_buffer, 10, "%i", num);
+  APP_LOG(APP_LOG_LEVEL_INFO, s_buffer);
+}*/
 
 ClaySettings get_settings() {
   return settings;
 }
+
 // Initialize the default settings
 static void prv_default_settings() {
   settings.ship_rotate = 60;
@@ -16,6 +24,8 @@ static void prv_default_settings() {
   settings.cap_change = 5;
   settings.ship_select = 0;
   settings.turret_rotate = 1;
+  settings.insult_chance = 25;
+  settings.ywing_chance = 3;
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }
@@ -32,7 +42,6 @@ void prv_load_settings() {
 static void prv_save_settings() {
   persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
-
 
 //inbox
 void prv_inbox_received_handler(DictionaryIterator *iter, void *context) { 

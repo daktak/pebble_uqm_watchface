@@ -7,6 +7,8 @@ typedef struct ClaySettings {
   int ship_rotate;
   int cap_change;
   int turret_rotate;
+  int insult_chance;
+  int ywing_chance;
   //int last_ship;
   //int last_race;
 } ClaySettings;

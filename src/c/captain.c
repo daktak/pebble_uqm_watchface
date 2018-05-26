@@ -56,7 +56,7 @@ static char terminator_cap[16][10] = {"Heep-eep","Feep-eep","Reep-eep","Yeep-eep
 static char stinger_cap[16][8] = {"NikNak","FipPat","DipPak","FatPot","ZikFat","PukYor","TopNik","PorKoo","TikTak","RinTin","FitFap","TotToe","ZipZak","TikTok","MikMok","SikSok"};
 
 //Randomly select the captains name
-char *get_captain() {
+char* get_captain() {
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
   int random_race_int = set_race();
