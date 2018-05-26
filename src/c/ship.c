@@ -106,9 +106,7 @@ void set_ship(ClaySettings settings){
     }
   }
   if ((old_race != random_race_int)||((old_race == 0)&&(random_race_int==0))) {
-    char* captain = get_captain();
-    APP_LOG(APP_LOG_LEVEL_INFO, captain);
-    update_captain(captain);
+    update_captain(get_captain(random_race_int));
   }
 }
 

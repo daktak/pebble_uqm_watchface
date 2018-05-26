@@ -73,7 +73,7 @@ static void change(int min) {
     }
   }
   if (settings.cap_change == min) {
-    update_captain(get_captain());
+    update_captain(get_captain(random_race_int));
   }
   
   if (current_insult > 0) {
