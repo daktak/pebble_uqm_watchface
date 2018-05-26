@@ -10,9 +10,6 @@
  - refactor
  - font
  */
-
-#define SETTINGS_KEY 1
-
 typedef struct ClaySettings {
   int ship_select;
   int ship_change;
@@ -22,6 +19,7 @@ typedef struct ClaySettings {
   //int last_ship;
   //int last_race;
 } ClaySettings;
+
 static ClaySettings settings;
 
 static Window *s_main_window;
@@ -161,7 +159,7 @@ static void set_ship(){
   }
   
   if (old_race != random_race_int) {
-    update_captain(set_captain());
+    update_captain(get_captain());
   }
 }
 
@@ -187,7 +185,7 @@ static void change(int min) {
     }
   }
   if (settings.cap_change == min) {
-    update_captain(set_captain());
+    update_captain(get_captain());
   }
   
   if (current_insult > 0) {
