@@ -156,6 +156,10 @@ module.exports = [
     "label": "Rotate ship every",
     "defaultValue" : "60",
     "options": [
+      {
+        "label": "Never",
+        "value": "0"
+      },
       { 
         "label": "Minute", 
         "value": "1"
@@ -176,6 +180,10 @@ module.exports = [
     "label": "Rotate turret every",
     "defaultValue" : "60",
     "options": [
+      {
+        "label": "Never",
+        "value": "0"
+      },
       { 
         "label": "Minute", 
         "value": "1"
