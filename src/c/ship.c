@@ -124,19 +124,23 @@ void set_ship(ClaySettings settings){
     image_frame.origin.y -= rbounds.size.h/2 - 3;
     layer_set_frame((Layer*)rot,image_frame);
     
-    rot_bitmap_set_compositing_mode(rot, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpOr));
+    rot_bitmap_set_compositing_mode(rot, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpAssign));
     //set initial angle,
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp); 
-    rotate(tick_time, settings.ship_rotate);
+    if (settings.ship_rotate != 0) {
+      time_t temp = time(NULL);
+      struct tm *tick_time = localtime(&temp); 
+      rotate(tick_time, settings.ship_rotate);
+    }
     Layer *window_layer = get_window_layer();
     layer_add_child(window_layer, (Layer*)rot);
     //animate_ship();
     if (ship_int == ORZ) {
       //set initial angle,
-      time_t temp = time(NULL);
-      struct tm *tick_time = localtime(&temp); 
-      rotate_turret(tick_time,settings.turret_rotate);
+      if (settings.ship_rotate != 0) {
+        time_t temp = time(NULL);
+        struct tm *tick_time = localtime(&temp); 
+        rotate_turret(tick_time,settings.turret_rotate);
+      }
       layer_add_child(window_layer, (Layer*)rott);
     }
   }
@@ -155,7 +159,7 @@ void create_turret(GRect bounds, Layer *window_layer) {
   image_frame.origin.x -= rbounds.size.w/2; 
   image_frame.origin.y -= rbounds.size.h/2 - 3;
   layer_set_frame((Layer*)rott,image_frame);
-  rot_bitmap_set_compositing_mode(rott, GCompOpSet);
+  rot_bitmap_set_compositing_mode(rott, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpOr));
 }
 
 void ship_unload() {
