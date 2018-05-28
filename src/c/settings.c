@@ -19,13 +19,14 @@ ClaySettings get_settings() {
 
 // Initialize the default settings
 static void prv_default_settings() {
-  settings.ship_rotate = 60;
+  settings.ship_rotate = 0;
   settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
   settings.turret_rotate = 1;
-  settings.insult_chance = 10;
+  settings.insult_chance = 25;
   settings.ywing_chance = 3;
+  settings.animations = true;
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }

@@ -20,7 +20,40 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
 
 int ship_int;
 
+/*
+static void anim_started_handler(Animation *animation, void *context) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Animation started!");
+}
 
+static void anim_stopped_handler(Animation *animation, bool finished, void *context) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Animation stopped!");
+}
+
+void animate_ship() {
+    GRect bounds = get_bounds();
+    GRect onscreen = layer_get_frame((Layer*)rot);
+    GRect offscreen = GRect(bounds.size.w/2-15, bounds.size.h, bounds.size.w, bounds.size.h);
+    PropertyAnimation *prop_anim = property_animation_create_layer_frame((Layer*)rot, &offscreen, &onscreen);
+      // Get the Animation
+    Animation *anim = property_animation_get_animation(prop_anim);
+    
+    // Choose parameters
+    const int delay_ms = 1000;
+    const int duration_ms = 500;
+    
+    // Configure the Animation's curve, delay, and duration
+    animation_set_curve(anim, AnimationCurveEaseOut);
+    animation_set_delay(anim, delay_ms);
+    animation_set_duration(anim, duration_ms);
+    // Set some handlers
+    animation_set_handlers(anim, (AnimationHandlers) {
+      .started = anim_started_handler,
+      .stopped = anim_stopped_handler
+    }, NULL);
+    // Play the animation
+    animation_schedule(anim);
+}
+*/
 //ORZ Nemesis Turret rotation
 void rotate_turret(struct tm *tick_time, int min) {
   ClaySettings settings = get_settings();
@@ -97,6 +130,7 @@ void set_ship(ClaySettings settings){
     rotate(tick_time, settings.ship_rotate);
     Layer *window_layer = get_window_layer();
     layer_add_child(window_layer, (Layer*)rot);
+    //animate_ship();
     if (ship_int == ORZ) {
       //set initial angle,
       time_t temp = time(NULL);
