@@ -8,12 +8,14 @@
 #include "src/c/display_layer.h"
 
 /*
+ NOTES
+ -- UQM HD content too large to store all ships
+ -- max watchface size 100k
  TODO
  - Remember last ship and not redraw
  - Remember last captain name
  - Animate ship
  - Black and white support
- - improve ship resolution from untronomicon
  */
 
 

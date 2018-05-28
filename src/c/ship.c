@@ -123,7 +123,8 @@ void set_ship(ClaySettings settings){
     image_frame.origin.x -= rbounds.size.w/2; 
     image_frame.origin.y -= rbounds.size.h/2 - 3;
     layer_set_frame((Layer*)rot,image_frame);
-    rot_bitmap_set_compositing_mode(rot, GCompOpSet);
+    
+    rot_bitmap_set_compositing_mode(rot, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpOr));
     //set initial angle,
     time_t temp = time(NULL);
     struct tm *tick_time = localtime(&temp); 

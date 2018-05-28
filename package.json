@@ -22,12 +22,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/nemesis_turret.png",
-                    "name": "NEMESIS_TURRET",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/ywing.png",
                     "name": "YWING",
                     "targetPlatforms": null,
@@ -90,6 +84,12 @@
                 {
                     "file": "images/penetrator.png",
                     "name": "PENETRATOR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis_turret.png",
+                    "name": "NEMESIS_TURRET",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
