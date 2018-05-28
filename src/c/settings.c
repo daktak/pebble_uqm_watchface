@@ -19,7 +19,7 @@ ClaySettings get_settings() {
 
 // Initialize the default settings
 static void prv_default_settings() {
-  settings.ship_rotate = 1;
+  settings.ship_rotate = 60;
   settings.ship_change = 60;
   settings.cap_change = 5;
   settings.ship_select = 0;
