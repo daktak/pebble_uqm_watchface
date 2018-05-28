@@ -3,6 +3,8 @@ Pebble Watch Face
 
 Based off [Ur-Quan Masters](http://sc2.sourceforge.net/downloads.php)
 
+For B&W it may look better if you set rotation to 0
+
 ![](screenshots/uqm-chmmr.png?raw=true)
 ![](screenshots/uqm-eluder.png?raw=true)
 ![](screenshots/uqm-human.png?raw=true)
@@ -10,7 +12,16 @@ Based off [Ur-Quan Masters](http://sc2.sourceforge.net/downloads.php)
 ![](screenshots/uqm-slylandro.png?raw=true)
 ![](screenshots/uqm-syreen.png?raw=true)
 ![](screenshots/uqm-urquan.png?raw=true)
+
+![](screenshots/bw-ilwrath.png?raw=true)
+![](screenshots/bw-pkunk.png?raw=true)
+![](screenshots/bw-korah.png?raw=true)
+![](screenshots/bw-urquan.png?raw=true)
+![](screenshots/bw-utwig.png?raw=true)
+
+
 ![](screenshots/setting.png?raw=true)
+
 
 Donations | Bitcoin 3Dr7HHJEd5sNyht9J8gi5dN6QoUnxRdjZW | Ethereum Classic 0x3F45Ba445B5738E709A2A28c3A199B800eEb96Fc
 
