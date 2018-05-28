@@ -88,14 +88,14 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/nemesis_turret.png",
-                    "name": "NEMESIS_TURRET",
+                    "file": "images/nemesis.png",
+                    "name": "NEMESIS",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/nemesis.png",
-                    "name": "NEMESIS",
+                    "file": "images/nemesis_turret.png",
+                    "name": "NEMESIS_TURRET",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -194,13 +194,15 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
+            "aplite",
             "basalt",
-            "chalk"
+            "chalk",
+            "diorite"
         ],
         "uuid": "069fda8a-4673-4005-b88d-43d12e12fb61",
         "watchapp": {
             "watchface": true
         }
     },
-    "version": "0.3.0"
+    "version": "0.4.0"
 }
