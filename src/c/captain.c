@@ -1,6 +1,5 @@
 #include <pebble.h>
 #include "src/c/races.h"
-#include "src/c/main.h"
 #include "src/c/captain.h"
 
 //spathi
@@ -56,10 +55,9 @@ static char terminator_cap[16][10] = {"Heep-eep","Feep-eep","Reep-eep","Yeep-eep
 static char stinger_cap[16][8] = {"NikNak","FipPat","DipPak","FatPot","ZikFat","PukYor","TopNik","PorKoo","TikTak","RinTin","FitFap","TotToe","ZipZak","TikTok","MikMok","SikSok"};
 
 //Randomly select the captains name
-char* get_captain() {
+char* get_captain(int random_race_int) {
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
   char *current_cap;
-  int random_race_int = set_race();
   int def_rand = rand() % 16;
   switch (random_race_int) {
     case SPATHI:
@@ -140,9 +138,7 @@ char* get_captain() {
     default:
       current_cap = "daktak";
   }
-  return current_cap;
-  //update_captain(current_cap);
-  
+  return current_cap;  
 }
 
 char* get_insult() {

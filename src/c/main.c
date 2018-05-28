@@ -8,11 +8,14 @@
 #include "src/c/display_layer.h"
 
 /*
+ NOTES
+ -- UQM HD content too large to store all ships
+ -- max watchface size 100k
  TODO
  - Remember last ship and not redraw
  - Remember last captain name
+ - Animate ship
  - Black and white support
- - improve ship resolution
  */
 
 
@@ -73,7 +76,7 @@ static void change(int min) {
     }
   }
   if (settings.cap_change == min) {
-    update_captain(get_captain());
+    update_captain(get_captain(random_race_int));
   }
   
   if (current_insult > 0) {
@@ -99,7 +102,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   change(-1);
   
   if(tick_time->tm_sec == 0){ // Every minute
-    update_time();
+    update_time(bounds);
     change(1);
     rotate(tick_time,60);
     rotate_turret(tick_time,60);
@@ -172,7 +175,7 @@ static void init() {
   // Register with TickTimerService
   set_ticker();
   // Make sure the time is displayed from the start
-  update_time();
+  update_time(bounds);
 }
 
 int main(void) {

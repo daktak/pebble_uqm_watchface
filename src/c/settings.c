@@ -24,8 +24,9 @@ static void prv_default_settings() {
   settings.cap_change = 5;
   settings.ship_select = 0;
   settings.turret_rotate = 1;
-  settings.insult_chance = 6;
+  settings.insult_chance = 25;
   settings.ywing_chance = 3;
+  settings.animations = true;
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }
