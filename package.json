@@ -22,103 +22,103 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/ships2x/nemesis_turret.png",
+                    "file": "images/nemesis_turret.png",
                     "name": "NEMESIS_TURRET",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/ywing.png",
+                    "file": "images/ywing.png",
                     "name": "YWING",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/xform.png",
+                    "file": "images/xform.png",
                     "name": "XFORM",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/trader.png",
+                    "file": "images/trader.png",
                     "name": "TRADER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/torch.png",
+                    "file": "images/torch.png",
                     "name": "TORCH",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/terminator.png",
+                    "file": "images/terminator.png",
                     "name": "TERMINATOR",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/stinger.png",
+                    "file": "images/stinger.png",
                     "name": "STINGER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/skiff.png",
+                    "file": "images/skiff.png",
                     "name": "SKIFF",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/scout.png",
+                    "file": "images/scout.png",
                     "name": "SCOUT",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/probe.png",
+                    "file": "images/probe.png",
                     "name": "PROBE",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/podship.png",
+                    "file": "images/podship.png",
                     "name": "PODSHIP",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/penetrator.png",
+                    "file": "images/penetrator.png",
                     "name": "PENETRATOR",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/nemesis.png",
+                    "file": "images/nemesis.png",
                     "name": "NEMESIS",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/mauler.png",
+                    "file": "images/mauler.png",
                     "name": "MAULER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/marauder.png",
+                    "file": "images/marauder.png",
                     "name": "MARAUDER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/jugger.png",
+                    "file": "images/jugger.png",
                     "name": "JUGGER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/intruder.png",
+                    "file": "images/intruder.png",
                     "name": "INTRUDER",
                     "targetPlatforms": null,
                     "type": "bitmap"
@@ -131,61 +131,61 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/guardian.png",
+                    "file": "images/guardian.png",
                     "name": "GUARDIAN",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/fury.png",
+                    "file": "images/fury.png",
                     "name": "FURY",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/eluder.png",
+                    "file": "images/eluder.png",
                     "name": "ELUDER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/drone.png",
+                    "file": "images/drone.png",
                     "name": "DRONE",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/dreadnought.png",
+                    "file": "images/dreadnought.png",
                     "name": "DREADNOUGHT",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/cruiser.png",
+                    "file": "images/cruiser.png",
                     "name": "CRUISER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/broodhome.png",
+                    "file": "images/broodhome.png",
                     "name": "BROODHOME",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/blade.png",
+                    "file": "images/blade.png",
                     "name": "BLADE",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/avenger.png",
+                    "file": "images/avenger.png",
                     "name": "AVENGER",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ships2x/avatar.png",
+                    "file": "images/avatar.png",
                     "name": "AVATAR",
                     "targetPlatforms": null,
                     "type": "bitmap"
