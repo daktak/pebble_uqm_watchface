@@ -15,7 +15,6 @@
  - Remember last ship and not redraw
  - Remember last captain name
  - Animate ship
- - Black and white support
  */
 
 
