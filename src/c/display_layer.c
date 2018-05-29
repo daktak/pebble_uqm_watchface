@@ -199,10 +199,8 @@ void window_load(GRect bounds, Layer *window_layer) {
   text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
-  
-  create_turret(bounds, window_layer);
-  
-  //SHIP
+ 
   ClaySettings settings = get_settings();
+  create_turret(bounds, window_layer, settings.hd_gfx);
   set_ship(settings);
 }

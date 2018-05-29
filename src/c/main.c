@@ -9,12 +9,13 @@
 
 /*
  NOTES
- -- UQM HD content too large to store all ships
+ -- UQM HD4X content too large to store all ships
  -- max watchface size 100k
  TODO
  - Remember last ship and not redraw
  - Remember last captain name
  - Animate ship
+ - check turret change on hd2x setting change
  */
 
 
