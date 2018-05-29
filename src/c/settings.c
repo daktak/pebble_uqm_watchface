@@ -3,6 +3,7 @@
 #include "settings.h"
 #include "src/c/main.h"
 #include "src/c/races.h"
+#include "src/c/ship.h"
 
 static ClaySettings settings;
 
@@ -101,11 +102,11 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
   }
   if (hd2x_t) {
     bool old_hd2x = settings.hd_gfx;
-    settings.hd_gfx = atoi(hd2fx_t->value->cstring)==1;
+    settings.hd_gfx = atoi(hd2x_t->value->cstring)==1;
     if (old_hd2x != settings.hd_gfx) {
       GRect bounds = get_bounds();
-      create_turret(bounds, window_layer, settings.hd_gfx);
       Layer *window_layer = get_window_layer();
+      create_turret(bounds, window_layer, settings.hd_gfx);
       set_ship(settings);
     }
   }

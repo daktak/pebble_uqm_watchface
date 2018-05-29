@@ -159,7 +159,7 @@ void set_ship(ClaySettings settings){
   }
 }
 
-void create_turret(GRect bounds, Layer *window_layer, int hd_gfx) {
+void create_turret(GRect bounds, Layer *window_layer, bool hd_gfx) {
   //Nemesis Turret
   int turret_resource = RESOURCE_ID_NEMESIS_TURRET;
   if ((hd_gfx)&&(PBL_IF_COLOR_ELSE(true,false))) {
