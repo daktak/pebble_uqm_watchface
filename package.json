@@ -189,6 +189,168 @@
                     "name": "AVATAR",
                     "targetPlatforms": null,
                     "type": "bitmap"
+                },
+                {
+                    "file": "images/ywing_hd2x.png",
+                    "name": "YWING_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/xform_hd2x.png",
+                    "name": "XFORM_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/trader_hd2x.png",
+                    "name": "TRADER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/torch_hd2x.png",
+                    "name": "TORCH_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/terminator_hd2x.png",
+                    "name": "TERMINATOR_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/stinger_hd2x.png",
+                    "name": "STINGER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/skiff_hd2x.png",
+                    "name": "SKIFF_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/scout_hd2x.png",
+                    "name": "SCOUT_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/probe_hd2x.png",
+                    "name": "PROBE_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/podship_hd2x.png",
+                    "name": "PODSHIP_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/penetrator_hd2x.png",
+                    "name": "PENETRATOR_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis_hd2x.png",
+                    "name": "NEMESIS_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis_turret_hd2x.png",
+                    "name": "NEMESIS_TURRET_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mauler_hd2x.png",
+                    "name": "MAULER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/marauder_hd2x.png",
+                    "name": "MARAUDER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/jugger_hd2x.png",
+                    "name": "JUGGER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/intruder_hd2x.png",
+                    "name": "INTRUDER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/guardian_hd2x.png",
+                    "name": "GUARDIAN_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/fury_hd2x.png",
+                    "name": "FURY_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/eluder_hd2x.png",
+                    "name": "ELUDER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/drone_hd2x.png",
+                    "name": "DRONE_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/dreadnought_hd2x.png",
+                    "name": "DREADNOUGHT_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/cruiser_hd2x.png",
+                    "name": "CRUISER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/broodhome_hd2x.png",
+                    "name": "BROODHOME_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/blade_hd2x.png",
+                    "name": "BLADE_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avenger_hd2x.png",
+                    "name": "AVENGER_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avatar_hd2x.png",
+                    "name": "AVATAR_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
                 }
             ]
         },
