@@ -10,6 +10,7 @@ typedef struct ClaySettings {
   int insult_chance;
   int ywing_chance;
   bool animations;
+  bool hd_gfx;
   //int last_ship;
   //int last_race;
 } ClaySettings;
