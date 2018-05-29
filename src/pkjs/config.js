@@ -13,13 +13,13 @@ module.exports = [
   {
     "type": "toggle",
     "messageKey": "Animations",
-    "label": "Animation"
+    "label": "Animation",
     "defaultValue": true
   },
   {
     "type": "toggle",
     "messageKey": "Hd2x",
-    "label": "UQM HD Ships",
+    "label": "HD Ships",
     "defaultValue": true
   },
   {

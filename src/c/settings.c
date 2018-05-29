@@ -7,7 +7,7 @@
 
 static ClaySettings settings;
 
-/* helper - put int in buffer and log
+/* helper - put int in buffer and log 
 void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
@@ -98,11 +98,11 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
     //log_int(settings.cap_change);
   }
   if (animations_t) {
-    settings.animations = atoi(animations_t->value->cstring)==1;
+    settings.animations = animations_t->value->uint32==1;
   }
   if (hd2x_t) {
     bool old_hd2x = settings.hd_gfx;
-    settings.hd_gfx = atoi(hd2x_t->value->cstring)==1;
+    settings.hd_gfx = hd2x_t->value->uint32==1;
     if (old_hd2x != settings.hd_gfx) {
       GRect bounds = get_bounds();
       Layer *window_layer = get_window_layer();
