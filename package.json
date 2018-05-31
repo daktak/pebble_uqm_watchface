@@ -162,13 +162,13 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/nemesis_turret.png",
+                    "file": "images/turret.png",
                     "name": "NEMESIS_TURRET",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/nemesis_turret_hd2x.png",
+                    "file": "images/turret_hd2x.png",
                     "name": "NEMESIS_TURRET_HD2X",
                     "targetPlatforms": null,
                     "type": "bitmap"
