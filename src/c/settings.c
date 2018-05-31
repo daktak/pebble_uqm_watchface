@@ -3,10 +3,11 @@
 #include "settings.h"
 #include "src/c/main.h"
 #include "src/c/races.h"
+#include "src/c/ship.h"
 
 static ClaySettings settings;
 
-/* helper - put int in buffer and log
+/* helper - put int in buffer and log 
 void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
@@ -19,14 +20,15 @@ ClaySettings get_settings() {
 
 // Initialize the default settings
 static void prv_default_settings() {
-  settings.ship_rotate = 60;
-  settings.ship_change = 60;
+  settings.ship_rotate = PBL_IF_COLOR_ELSE(60,0);
+  settings.ship_change = PBL_IF_COLOR_ELSE(60,10);
   settings.cap_change = 5;
   settings.ship_select = 0;
-  settings.turret_rotate = 1;
+  settings.turret_rotate = PBL_IF_COLOR_ELSE(1,0);
   settings.insult_chance = 25;
   settings.ywing_chance = 3;
   settings.animations = true;
+  settings.hd_gfx = PBL_IF_COLOR_ELSE(true,false);
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }
@@ -52,6 +54,8 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
   Tuple *ship_rotate_t = dict_find(iter, MESSAGE_KEY_ShipRotate);
   Tuple *cap_change_t = dict_find(iter, MESSAGE_KEY_CapChange);
   Tuple *turret_rotate_t = dict_find(iter, MESSAGE_KEY_TurretRotate);
+  Tuple *animations_t = dict_find(iter, MESSAGE_KEY_Animations);
+  Tuple *hd2x_t = dict_find(iter, MESSAGE_KEY_Hd2x);
   if (ship_select_t) {
     int old_ship = settings.ship_select;
     settings.ship_select = atoi(ship_select_t->value->cstring);
@@ -92,6 +96,19 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
   if (cap_change_t) {
     settings.cap_change = atoi(cap_change_t->value->cstring);
     //log_int(settings.cap_change);
+  }
+  if (animations_t) {
+    settings.animations = animations_t->value->uint32==1;
+  }
+  if (hd2x_t) {
+    bool old_hd2x = settings.hd_gfx;
+    settings.hd_gfx = hd2x_t->value->uint32==1;
+    if (old_hd2x != settings.hd_gfx) {
+      GRect bounds = get_bounds();
+      Layer *window_layer = get_window_layer();
+      create_turret(bounds, window_layer, settings.hd_gfx);
+      set_ship(settings);
+    }
   }
   prv_save_settings();
 }
