@@ -9,12 +9,8 @@
 
 /*
  NOTES
- -- UQM HD4X content too large to store all ships
- -- max watchface size 100k
+  - Aplite fails on emulator - need a watch to try
  TODO
- - HD2X move nemesis_turret to rotate correctly
- - run all pngs through the palette
- - test b&w
  - Remember last ship and not redraw
  - Remember last captain name
  - Animate ship

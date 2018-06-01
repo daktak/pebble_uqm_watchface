@@ -24,6 +24,168 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/ywing_hd4x.png",
+                    "name": "YWING_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/xform_hd4x.png",
+                    "name": "XFORM_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/trader_hd4x.png",
+                    "name": "TRADER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/torch_hd4x.png",
+                    "name": "TORCH_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/terminator_hd4x.png",
+                    "name": "TERMINATOR_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/stinger_hd4x.png",
+                    "name": "STINGER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/skiff_hd4x.png",
+                    "name": "SKIFF_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/scout_hd4x.png",
+                    "name": "SCOUT_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/probe_hd4x.png",
+                    "name": "PROBE_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/podship_hd4x.png",
+                    "name": "PODSHIP_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/penetrator_hd4x.png",
+                    "name": "PENETRATOR_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/nemesis_hd4x.png",
+                    "name": "NEMESIS_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/turret_hd4x.png",
+                    "name": "NEMESIS_TURRET_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/mauler_hd4x.png",
+                    "name": "MAULER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/marauder_hd4x.png",
+                    "name": "MARAUDER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/jugger_hd4x.png",
+                    "name": "JUGGER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/intruder_hd4x.png",
+                    "name": "INTRUDER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/guardian_hd4x.png",
+                    "name": "GUARDIAN_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/fury_hd4x.png",
+                    "name": "FURY_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/eluder_hd4x.png",
+                    "name": "ELUDER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/drone_hd4x.png",
+                    "name": "DRONE_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/dreadnought_hd4x.png",
+                    "name": "DREADNOUGHT_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/cruiser_hd4x.png",
+                    "name": "CRUISER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/broodhome_hd4x.png",
+                    "name": "BROODHOME_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/blade_hd4x.png",
+                    "name": "BLADE_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avenger_hd4x.png",
+                    "name": "AVENGER_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/avatar_hd4x.png",
+                    "name": "AVATAR_HD4X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/ywing.png",
                     "name": "YWING",
                     "targetPlatforms": null,

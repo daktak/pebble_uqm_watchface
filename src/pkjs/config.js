@@ -17,10 +17,24 @@ module.exports = [
     "defaultValue": true
   },
   {
-    "type": "toggle",
+    "type": "select",
     "messageKey": "Hd2x",
-    "label": "HD Ships",
-    "defaultValue": true
+    "label": "Ship Graphics",
+    "defaultValue": "0",
+    "options": [
+      {
+        "label": "Original",
+        "value": "0"
+      },
+      {
+        "label": "HD 2X",
+        "value": "2"
+      },
+      {
+        "label": "HD 4X",
+        "value": "4"
+      }
+    ]
   },
   {
     "type": "select",

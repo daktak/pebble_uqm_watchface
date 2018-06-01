@@ -7,12 +7,12 @@
 
 static ClaySettings settings;
 
-/* helper - put int in buffer and log 
+/* helper - put int in buffer and log  */
 void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
   APP_LOG(APP_LOG_LEVEL_INFO, s_buffer);
-}*/
+}
 
 ClaySettings get_settings() {
   return settings;
@@ -28,7 +28,7 @@ static void prv_default_settings() {
   settings.insult_chance = 25;
   settings.ywing_chance = 3;
   settings.animations = true;
-  settings.hd_gfx = PBL_IF_COLOR_ELSE(true,false);
+  settings.hd_gfx = PBL_IF_COLOR_ELSE(2,0);
   //settings.last_ship = 0;
   //settings.last_race = 0;
 }
@@ -101,8 +101,9 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
     settings.animations = animations_t->value->uint32==1;
   }
   if (hd2x_t) {
-    bool old_hd2x = settings.hd_gfx;
-    settings.hd_gfx = hd2x_t->value->uint32==1;
+    int old_hd2x = settings.hd_gfx;
+    settings.hd_gfx = hd2x_t->value->uint32;
+    log_int(settings.hd_gfx);
     if (old_hd2x != settings.hd_gfx) {
       GRect bounds = get_bounds();
       Layer *window_layer = get_window_layer();
