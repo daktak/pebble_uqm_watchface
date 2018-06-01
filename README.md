@@ -11,7 +11,12 @@ For B&W it may look better if you set rotation to 0
 ![](screenshots/pkunk.gif?raw=true)
 ![](screenshots/slylandro.gif?raw=true)
 ![](screenshots/orz-hd.gif?raw=true)
-![](screenshots/orz.gif?raw=true)
+
+![](screenshots/mmrnhrm-180.gif?raw=true)
+![](screenshots/ilwrath-180.gif?raw=true)
+![](screenshots/orz-180.gif?raw=true)
+![](screenshots/utwig-180.gif?raw=true)
+![](screenshots/vux-180.gif?raw=true)
 
 ![](screenshots/bw-ilwrath.png?raw=true)
 ![](screenshots/bw-pkunk.png?raw=true)
