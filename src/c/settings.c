@@ -7,12 +7,12 @@
 
 static ClaySettings settings;
 
-/* helper - put int in buffer and log  */
+/* helper - put int in buffer and log  
 void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
   APP_LOG(APP_LOG_LEVEL_INFO, s_buffer);
-}
+} */
 
 ClaySettings get_settings() {
   return settings;
@@ -102,8 +102,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
   }
   if (hd2x_t) {
     int old_hd2x = settings.hd_gfx;
-    settings.hd_gfx = hd2x_t->value->uint32;
-    log_int(settings.hd_gfx);
+    settings.hd_gfx = atoi(hd2x_t->value->cstring);
     if (old_hd2x != settings.hd_gfx) {
       GRect bounds = get_bounds();
       Layer *window_layer = get_window_layer();
