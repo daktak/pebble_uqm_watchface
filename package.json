@@ -48,6 +48,18 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/turret.png",
+                    "name": "NEMESIS_TURRET",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/turret_hd2x.png",
+                    "name": "NEMESIS_TURRET_HD2X",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/trader.png",
                     "name": "TRADER",
                     "targetPlatforms": null,
@@ -158,18 +170,6 @@
                 {
                     "file": "images/nemesis.png",
                     "name": "NEMESIS",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/turret.png",
-                    "name": "NEMESIS_TURRET",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/turret_hd2x.png",
-                    "name": "NEMESIS_TURRET_HD2X",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
