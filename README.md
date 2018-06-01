@@ -5,13 +5,15 @@ Based off [Ur-Quan Masters](http://sc2.sourceforge.net/downloads.php)
 
 For B&W it may look better if you set rotation to 0
 
-![](screenshots/uqm-chmmr.png?raw=true)
+![](screenshots/chmmr.gif?raw=true)
 ![](screenshots/uqm-eluder.png?raw=true)
 ![](screenshots/uqm-human.png?raw=true)
 ![](screenshots/uqm-pkunk.png?raw=true)
 ![](screenshots/uqm-slylandro.png?raw=true)
 ![](screenshots/uqm-syreen.png?raw=true)
 ![](screenshots/uqm-urquan.png?raw=true)
+![](screenshots/orz-hd.gif?raw=true)
+![](screenshots/orz.gif?raw=true)
 
 ![](screenshots/bw-ilwrath.png?raw=true)
 ![](screenshots/bw-pkunk.png?raw=true)
