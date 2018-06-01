@@ -11,6 +11,18 @@ module.exports = [
     "defaultValue": "Watch Settings"
   },
   {
+    "type": "toggle",
+    "messageKey": "Animations",
+    "label": "Animation",
+    "defaultValue": true
+  },
+  {
+    "type": "toggle",
+    "messageKey": "Hd2x",
+    "label": "HD Ships",
+    "defaultValue": true
+  },
+  {
     "type": "select",
     "messageKey": "ShipSelection",
     "label": "Ship selection",

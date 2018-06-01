@@ -18,6 +18,12 @@ static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SK
                         RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
 
+static int races_hd2x[26] = {RESOURCE_ID_ELUDER_HD2X, RESOURCE_ID_GUARDIAN_HD2X, RESOURCE_ID_SKIFF_HD2X, RESOURCE_ID_BROODHOME_HD2X, RESOURCE_ID_AVATAR_HD2X, RESOURCE_ID_MAULER_HD2X,
+                          RESOURCE_ID_CRUISER_HD2X, RESOURCE_ID_AVENGER_HD2X, RESOURCE_ID_MARAUDER_HD2X, RESOURCE_ID_TRADER_HD2X, RESOURCE_ID_XFORM_HD2X, RESOURCE_ID_PODSHIP_HD2X,
+                          RESOURCE_ID_NEMESIS_HD2X, RESOURCE_ID_FURY_HD2X, RESOURCE_ID_SCOUT_HD2X, RESOURCE_ID_PROBE_HD2X, RESOURCE_ID_BLADE_HD2X, RESOURCE_ID_PENETRATOR_HD2X,
+                          RESOURCE_ID_TORCH_HD2X, RESOURCE_ID_DRONE_HD2X, RESOURCE_ID_DREADNOUGHT_HD2X, RESOURCE_ID_JUGGER_HD2X, RESOURCE_ID_INTRUDER_HD2X,
+                          RESOURCE_ID_TERMINATOR_HD2X, RESOURCE_ID_STINGER_HD2X, RESOURCE_ID_YWING_HD2X};
+
 int ship_int;
 
 /*
@@ -109,12 +115,16 @@ void set_ship(ClaySettings settings){
       ship_int = YWING;
     }
   }
-  
+   
   if (ship_int != old_ship) {
     reset_timer(settings.ship_rotate, settings.ship_rotate, settings.turret_rotate);
     layer_remove_from_parent((Layer*)rott);
     layer_remove_from_parent((Layer*)rot);
-    ship_image = gbitmap_create_with_resource(races[ship_int-1]);
+    int ship_resource = races[ship_int-1];
+    if ((settings.hd_gfx)&&(PBL_IF_COLOR_ELSE(true,false))) {
+      ship_resource = races_hd2x[ship_int-1];
+    }
+    ship_image = gbitmap_create_with_resource(ship_resource);
     rot = rot_bitmap_layer_create(ship_image);
     GRect rbounds = layer_get_bounds((Layer*)rot);
     GRect bounds = get_bounds();
@@ -149,9 +159,13 @@ void set_ship(ClaySettings settings){
   }
 }
 
-void create_turret(GRect bounds, Layer *window_layer) {
-    //Nemesis Turret
-  turret_image = gbitmap_create_with_resource(RESOURCE_ID_NEMESIS_TURRET);
+void create_turret(GRect bounds, Layer *window_layer, bool hd_gfx) {
+  //Nemesis Turret
+  int turret_resource = RESOURCE_ID_NEMESIS_TURRET;
+  if ((hd_gfx)&&(PBL_IF_COLOR_ELSE(true,false))) {
+    turret_resource = RESOURCE_ID_NEMESIS_TURRET_HD2X;
+  }
+  turret_image = gbitmap_create_with_resource(turret_resource);
   rott = rot_bitmap_layer_create(turret_image);
   GRect rbounds = layer_get_bounds((Layer*)rott);
   const GPoint center = grect_center_point(&bounds);
