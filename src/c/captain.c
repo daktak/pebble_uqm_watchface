@@ -138,7 +138,7 @@ char* get_captain(int random_race_int) {
     default:
       current_cap = "daktak";
   }
-  return current_cap;  
+  return current_cap;
 }
 
 char* get_insult() {

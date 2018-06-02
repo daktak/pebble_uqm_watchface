@@ -7,7 +7,7 @@
 
 static ClaySettings settings;
 
-/* helper - put int in buffer and log 
+/* helper - put int in buffer and log
 void log_int(int num) {
   static char s_buffer[10];
   snprintf(s_buffer, 10, "%i", num);
@@ -47,7 +47,7 @@ static void prv_save_settings() {
 }
 
 //inbox
-void prv_inbox_received_handler(DictionaryIterator *iter, void *context) { 
+void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
   int random_race_int = get_random_race_int();
   Tuple *ship_select_t = dict_find(iter, MESSAGE_KEY_ShipSelection);
   Tuple *ship_change_t = dict_find(iter, MESSAGE_KEY_ShipChange);
@@ -70,7 +70,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
     //log_int(settings.turret_rotate);
     if ((old_rotate != settings.turret_rotate)&&(random_race_int == ORZ)) {
       time_t temp = time(NULL);
-      struct tm *tick_time = localtime(&temp); 
+      struct tm *tick_time = localtime(&temp);
       rotate_turret(tick_time, settings.turret_rotate);
     }
     reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
@@ -79,14 +79,14 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
     int old_rotate  = settings.ship_rotate;
     settings.ship_rotate = atoi(ship_rotate_t->value->cstring);
     //log_int(settings.ship_rotate);
-    
+
     //redraw ship rotation
     if (old_rotate != settings.ship_rotate) {
       time_t temp = time(NULL);
-      struct tm *tick_time = localtime(&temp); 
+      struct tm *tick_time = localtime(&temp);
       rotate(tick_time, settings.ship_rotate);
     }
-    
+
     reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
   }
   if (ship_change_t) {

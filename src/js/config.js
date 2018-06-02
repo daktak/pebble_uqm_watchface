@@ -28,108 +28,108 @@ module.exports = [
     "label": "Ship selection",
     "defaultValue" : "0",
     "options": [
-      { 
-        "label": "Random", 
+      {
+        "label": "Random",
         "value": "0"
       },
-      { 
-        "label": "Spathi", 
+      {
+        "label": "Spathi",
          "value": "1"
       },
-        { 
-        "label": "Androsynth", 
+        {
+        "label": "Androsynth",
          "value": "2"
       },
-      { 
-        "label": "Arilou", 
+      {
+        "label": "Arilou",
          "value": "3"
       },
-      { 
-        "label": "Chenjesu", 
+      {
+        "label": "Chenjesu",
          "value": "4"
       },
-      { 
-        "label": "CHMMR", 
+      {
+        "label": "CHMMR",
          "value": "5"
       },
-      { 
-        "label": "Druuge", 
+      {
+        "label": "Druuge",
          "value": "6"
       },
-      { 
-        "label": "Human", 
+      {
+        "label": "Human",
          "value": "7"
       },
-      { 
-        "label": "Ilwrath", 
+      {
+        "label": "Ilwrath",
          "value": "8"
       },
-      { 
-        "label": "Kohrah", 
+      {
+        "label": "Kohrah",
          "value": "9"
       },
-      { 
-        "label": "Melnorme", 
+      {
+        "label": "Melnorme",
          "value": "10"
       },
-      { 
-        "label": "Mmrnhrm", 
+      {
+        "label": "Mmrnhrm",
          "value": "11"
       },
-      { 
-        "label": "Mycon", 
+      {
+        "label": "Mycon",
          "value": "12"
       },
-      { 
-        "label": "Orz", 
+      {
+        "label": "Orz",
          "value": "13"
       },
-      { 
-        "label": "Pkunk", 
+      {
+        "label": "Pkunk",
          "value": "14"
       },
-      { 
-        "label": "Shofixti", 
+      {
+        "label": "Shofixti",
          "value": "15"
       },
-     { 
-        "label": "Slylandro", 
+     {
+        "label": "Slylandro",
          "value": "16"
       },
-      { 
-        "label": "Supox", 
+      {
+        "label": "Supox",
          "value": "17"
       },
-      { 
-        "label": "Syreen", 
+      {
+        "label": "Syreen",
          "value": "18"
       },
-      { 
-        "label": "Thraddash", 
+      {
+        "label": "Thraddash",
          "value": "19"
       },
-      { 
-        "label": "Umgah", 
+      {
+        "label": "Umgah",
          "value": "20"
       },
-      { 
-        "label": "Ur-Quan", 
+      {
+        "label": "Ur-Quan",
          "value": "21"
       },
-      { 
-        "label": "Utwig", 
+      {
+        "label": "Utwig",
          "value": "22"
       },
-      { 
-        "label": "Vux", 
+      {
+        "label": "Vux",
          "value": "23"
       },
-      { 
-        "label": "Yehat", 
+      {
+        "label": "Yehat",
          "value": "24"
       },
-      { 
-        "label": "Zoqfotpik", 
+      {
+        "label": "Zoqfotpik",
          "value": "25"
       }
     ]
@@ -140,24 +140,24 @@ module.exports = [
     "label": "Change ship every",
     "defaultValue" : "60",
     "options": [
-      { 
-        "label": "Never", 
+      {
+        "label": "Never",
         "value": "0"
       },
-      { 
-        "label": "Minute", 
+      {
+        "label": "Minute",
         "value": "1"
       },
-      { 
-        "label": "5 Minutes", 
+      {
+        "label": "5 Minutes",
         "value": "5"
       },
-      { 
-        "label": "10 Minutes", 
+      {
+        "label": "10 Minutes",
         "value": "10"
       },
-      { 
-        "label": "60 Minutes", 
+      {
+        "label": "60 Minutes",
         "value": "60"
       }
     ]
@@ -172,16 +172,16 @@ module.exports = [
         "label": "Never",
         "value": "0"
       },
-      { 
-        "label": "Minute", 
+      {
+        "label": "Minute",
         "value": "1"
       },
-      { 
-        "label": "60 Minutes", 
+      {
+        "label": "60 Minutes",
         "value": "60"
       },
-      { 
-        "label": "12 Hours", 
+      {
+        "label": "12 Hours",
         "value": "12"
       }
     ]
@@ -196,16 +196,16 @@ module.exports = [
         "label": "Never",
         "value": "0"
       },
-      { 
-        "label": "Minute", 
+      {
+        "label": "Minute",
         "value": "1"
       },
-      { 
-        "label": "60 Minutes", 
+      {
+        "label": "60 Minutes",
         "value": "60"
       },
-      { 
-        "label": "12 Hours", 
+      {
+        "label": "12 Hours",
         "value": "12"
       }
     ]
@@ -216,24 +216,24 @@ module.exports = [
     "label": "Change captain every",
     "defaultValue" : "5",
     "options": [
-      { 
-        "label": "Never", 
+      {
+        "label": "Never",
         "value": "0"
       },
-      { 
-        "label": "Minute", 
+      {
+        "label": "Minute",
         "value": "1"
       },
-      { 
-        "label": "5 Minutes", 
+      {
+        "label": "5 Minutes",
         "value": "5"
       },
-      { 
-        "label": "10 Minutes", 
+      {
+        "label": "10 Minutes",
         "value": "10"
       },
-      { 
-        "label": "60 Minutes", 
+      {
+        "label": "60 Minutes",
         "value": "60"
       }
     ]

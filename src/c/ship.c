@@ -13,7 +13,7 @@ static GBitmap *turret_image;
 static RotBitmapLayer *rott;
 
 static int races[26] = {RESOURCE_ID_ELUDER, RESOURCE_ID_GUARDIAN, RESOURCE_ID_SKIFF, RESOURCE_ID_BROODHOME, RESOURCE_ID_AVATAR, RESOURCE_ID_MAULER,
-                        RESOURCE_ID_CRUISER, RESOURCE_ID_AVENGER, RESOURCE_ID_MARAUDER, RESOURCE_ID_TRADER, RESOURCE_ID_XFORM, RESOURCE_ID_PODSHIP, 
+                        RESOURCE_ID_CRUISER, RESOURCE_ID_AVENGER, RESOURCE_ID_MARAUDER, RESOURCE_ID_TRADER, RESOURCE_ID_XFORM, RESOURCE_ID_PODSHIP,
                         RESOURCE_ID_NEMESIS, RESOURCE_ID_FURY, RESOURCE_ID_SCOUT, RESOURCE_ID_PROBE, RESOURCE_ID_BLADE, RESOURCE_ID_PENETRATOR,
                         RESOURCE_ID_TORCH, RESOURCE_ID_DRONE, RESOURCE_ID_DREADNOUGHT, RESOURCE_ID_JUGGER, RESOURCE_ID_INTRUDER,
                         RESOURCE_ID_TERMINATOR, RESOURCE_ID_STINGER, RESOURCE_ID_YWING};
@@ -42,11 +42,11 @@ void animate_ship() {
     PropertyAnimation *prop_anim = property_animation_create_layer_frame((Layer*)rot, &offscreen, &onscreen);
       // Get the Animation
     Animation *anim = property_animation_get_animation(prop_anim);
-    
+
     // Choose parameters
     const int delay_ms = 1000;
     const int duration_ms = 500;
-    
+
     // Configure the Animation's curve, delay, and duration
     animation_set_curve(anim, AnimationCurveEaseOut);
     animation_set_delay(anim, delay_ms);
@@ -73,7 +73,7 @@ void rotate_turret(struct tm *tick_time, int min) {
     } else if (min==60) {
       unit = tick_time->tm_min * TRIG_MAX_ANGLE / 60;
     } else if (min==12) {
-      unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30); 
+      unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30);
     }
     if (settings.turret_rotate == min) {
       rot_bitmap_layer_set_angle(rott, unit);
@@ -92,7 +92,7 @@ void rotate(struct tm *tick_time, int min) {
   } else if (min==60) {
     unit = tick_time->tm_min * TRIG_MAX_ANGLE / 60;
   } else if (min==12) {
-    unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30); 
+    unit = tick_time->tm_hour%12 * TRIG_MAX_ANGLE / 12 + tick_time->tm_min * TRIG_MAX_ANGLE / (24*30);
   }
   if ((settings.ship_rotate == min) && (settings.ship_rotate != 0)) {
     rot_bitmap_layer_set_angle(rot, unit);
@@ -115,7 +115,7 @@ void set_ship(ClaySettings settings){
       ship_int = YWING;
     }
   }
-   
+
   if (ship_int != old_ship) {
     reset_timer(settings.ship_rotate, settings.ship_rotate, settings.turret_rotate);
     layer_remove_from_parent((Layer*)rott);
@@ -130,15 +130,15 @@ void set_ship(ClaySettings settings){
     GRect bounds = get_bounds();
     const GPoint center = grect_center_point(&bounds);
     GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
-    image_frame.origin.x -= rbounds.size.w/2; 
+    image_frame.origin.x -= rbounds.size.w/2;
     image_frame.origin.y -= rbounds.size.h/2 - 3;
     layer_set_frame((Layer*)rot,image_frame);
-    
+
     rot_bitmap_set_compositing_mode(rot, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpAssign));
     //set initial angle,
     if (settings.ship_rotate != 0) {
       time_t temp = time(NULL);
-      struct tm *tick_time = localtime(&temp); 
+      struct tm *tick_time = localtime(&temp);
       rotate(tick_time, settings.ship_rotate);
     }
     Layer *window_layer = get_window_layer();
@@ -148,7 +148,7 @@ void set_ship(ClaySettings settings){
       //set initial angle,
       if (settings.ship_rotate != 0) {
         time_t temp = time(NULL);
-        struct tm *tick_time = localtime(&temp); 
+        struct tm *tick_time = localtime(&temp);
         rotate_turret(tick_time,settings.turret_rotate);
       }
       layer_add_child(window_layer, (Layer*)rott);
@@ -170,7 +170,7 @@ void create_turret(GRect bounds, Layer *window_layer, bool hd_gfx) {
   GRect rbounds = layer_get_bounds((Layer*)rott);
   const GPoint center = grect_center_point(&bounds);
   GRect image_frame = (GRect) { .origin = center, .size = bounds.size };
-  image_frame.origin.x -= rbounds.size.w/2; 
+  image_frame.origin.x -= rbounds.size.w/2;
   image_frame.origin.y -= rbounds.size.h/2 - 3;
   layer_set_frame((Layer*)rott,image_frame);
   rot_bitmap_set_compositing_mode(rott, PBL_IF_COLOR_ELSE(GCompOpSet,GCompOpOr));

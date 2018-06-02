@@ -71,7 +71,7 @@ void anim_stopped_handler(Animation *animation, bool finished, void *context) {
   } else if (anim[INSULT] == animation) {
     layer_number = INSULT;
   }
-  
+
   if (first_position[layer_number]) {
     switch (layer_number) {
       case TIME:
@@ -88,7 +88,7 @@ void anim_stopped_handler(Animation *animation, bool finished, void *context) {
       default:
         break;
     }
-    
+
   }
 }
 
@@ -100,7 +100,7 @@ void animate_layer(GRect bounds, TextLayer *text_layer, bool first, int layer_nu
   // Choose parameters
   int delay_ms = 0;
   int duration_ms = 500;
-  
+
   switch (layer_num) {
     case TIME:
       offscreen = GRect(0, -50, bounds.size.w, 0);
@@ -119,27 +119,27 @@ void animate_layer(GRect bounds, TextLayer *text_layer, bool first, int layer_nu
     default:
       break;
   }
-  
+
   if (first) {
     prop_anim = property_animation_create_layer_frame(text_layer_get_layer(text_layer), &onscreen, &offscreen);
   } else {
     prop_anim = property_animation_create_layer_frame(text_layer_get_layer(text_layer), &offscreen, &onscreen);
   }
-  
+
   // Get the Animation
   anim[layer_num] = property_animation_get_animation(prop_anim);
-  
-  
+
+
   // Configure the Animation's curve, delay, and duration
   animation_set_curve(anim[layer_num], AnimationCurveEaseOut);
   animation_set_delay(anim[layer_num], delay_ms);
   animation_set_duration(anim[layer_num], duration_ms);
-  
+
   animation_set_handlers(anim[layer_num], (AnimationHandlers) {
     .started = anim_started_handler,
     .stopped = anim_stopped_handler
   }, NULL);
-  
+
   animation_schedule(anim[layer_num]);
 }
 
@@ -179,8 +179,8 @@ void window_load(GRect bounds, Layer *window_layer) {
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
-  
-  //Insult 
+
+  //Insult
   s_insult_layer = text_layer_create(
       GRect(bounds.size.w - PBL_IF_ROUND_ELSE(74,62) , PBL_IF_ROUND_ELSE(50,44), bounds.size.w - PBL_IF_ROUND_ELSE(24,12), 40));
   text_layer_set_background_color(s_insult_layer, GColorBlack);
@@ -189,7 +189,7 @@ void window_load(GRect bounds, Layer *window_layer) {
   text_layer_set_font(s_insult_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
   text_layer_set_text_alignment(s_insult_layer, GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(s_insult_layer));
-  
+
   //Captain Name
   s_cap_layer = text_layer_create(
       GRect(0, bounds.size.h - 32, bounds.size.w, 50));
@@ -199,7 +199,7 @@ void window_load(GRect bounds, Layer *window_layer) {
   text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
- 
+
   ClaySettings settings = get_settings();
   create_turret(bounds, window_layer, settings.hd_gfx);
   set_ship(settings);
