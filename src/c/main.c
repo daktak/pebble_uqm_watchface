@@ -178,6 +178,8 @@ static void init() {
   set_ticker();
   // Make sure the time is displayed from the start
   update_time(bounds);
+  time_t now = time(NULL);
+  srand(now);
 }
 
 int main(void) {
