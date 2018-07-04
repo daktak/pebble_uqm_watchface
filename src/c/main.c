@@ -8,11 +8,16 @@
 #include "src/c/display_layer.h"
 
 /*
+ NOTES
+ -- UQM HD4X content too large to store all ships
+ -- max watchface size 100k
  TODO
+ - HD2X move nemesis_turret to rotate correctly
+ - run all pngs through the palette
+ - test b&w
  - Remember last ship and not redraw
  - Remember last captain name
- - Black and white support
- - improve ship resolution
+ - Animate ship
  */
 
 
@@ -73,16 +78,16 @@ static void change(int min) {
     }
   }
   if (settings.cap_change == min) {
-    update_captain(get_captain());
+    update_captain(get_captain(random_race_int));
   }
-  
+
   if (current_insult > 0) {
     current_insult = -1;
   } else if (current_insult < 0) {
     update_insult("");
     current_insult = 0;
   }
-  
+
   if ((settings.ship_rotate == 1)&&(random_race_int == PKUNK)&&(current_insult==0)) {
     if (rand()% settings.insult_chance ==1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Pkunk Insult triggered");
@@ -97,9 +102,9 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   rotate(tick_time,1);
   rotate_turret(tick_time,1);
   change(-1);
-  
+
   if(tick_time->tm_sec == 0){ // Every minute
-    update_time();
+    update_time(bounds);
     change(1);
     rotate(tick_time,60);
     rotate_turret(tick_time,60);
@@ -158,7 +163,7 @@ static void init() {
   // Open AppMessage connection
   app_message_register_inbox_received(prv_inbox_received_handler);
   app_message_open(128, 128);
-  
+
   s_main_window = window_create();
   window_set_background_color(s_main_window, GColorBlack);
   // Set handlers to manage the elements inside the Window
@@ -172,7 +177,9 @@ static void init() {
   // Register with TickTimerService
   set_ticker();
   // Make sure the time is displayed from the start
-  update_time();
+  update_time(bounds);
+  time_t now = time(NULL);
+  srand(now);
 }
 
 int main(void) {

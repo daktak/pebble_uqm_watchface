@@ -1,6 +1,8 @@
 #pragma once
 #include <pebble.h>
 
+#define SETTINGS_KEY 1
+
 typedef struct ClaySettings {
   int ship_select;
   int ship_change;
@@ -9,6 +11,8 @@ typedef struct ClaySettings {
   int turret_rotate;
   int insult_chance;
   int ywing_chance;
+  bool animations;
+  bool hd_gfx;
   //int last_ship;
   //int last_race;
 } ClaySettings;
