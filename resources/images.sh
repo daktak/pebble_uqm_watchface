@@ -33,37 +33,38 @@ ywing"
 do_convert() {
   postfix=$1
   convert $FILE -define png:preserve-colormap=true -alpha set /tmp/temp.png
+  outfile=${ship}${postfix}
 
-  rm "${DEST_DIR}/${ship}~color.png"
+  rm "${DEST_DIR}/${outfile}~color.png"
   ffmpeg -i /tmp/temp.png -vf \
   "scale=-2:76:flags=lanczos,\
  unsharp=7:7:1.0:3:3:0.5, \
  eq=contrast=1.2" \
-  ${DEST_DIR}/${ship}~color.png
+  ${DEST_DIR}/${outfile}~color.png
 
-  rm "${DEST_DIR}/${ship}~bw.png"
-  convert "${DEST_DIR}/${ship}~color.png" \
+  rm "${DEST_DIR}/${outfile}~bw.png"
+  convert "${DEST_DIR}/${outfile}~color.png" \
   -colorspace Gray \
   -filter Triangle \
   -sigmoidal-contrast 6x50% \
   -dither FloydSteinberg \
   -remap pattern:gray50 \
-  "${DEST_DIR}/${ship}~bw.png"
+  "${DEST_DIR}/${outfile}~bw.png"
 
   #p2
-  rm ${DEST_DIR}/${ship}~color~228h.png
+  rm ${DEST_DIR}/${outfile}~color~228h.png
   ffmpeg -i /tmp/temp.png -vf \
   "scale=-2:103:flags=lanczos,\
   unsharp=7:7:1.0:3:3:0.5,\
   eq=contrast=1.2" \
-  ${DEST_DIR}/${ship}~color~228h.png
+  ${DEST_DIR}/${outfile}~color~228h.png
   #round2
-  rm ${DEST_DIR}/${ship}~color~260h.png
+  rm ${DEST_DIR}/${outfile}~color~260h.png
   ffmpeg -i /tmp/temp.png -vf \
   "scale=-2:117:flags=lanczos,\
   unsharp=7:7:1.0:3:3:0.5,\
   eq=contrast=1.2" \
-  ${DEST_DIR}/${ship}~color~260h.png
+  ${DEST_DIR}/${outfile}~color~260h.png
   rm /tmp/temp.png
 }
 
