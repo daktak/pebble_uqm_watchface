@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 DEST_DIR=~/git/pebble_uqm_watchface/resources/images
 HD4X_DIR=~/Downloads/hires4x/hires4x/ships/
 BASE_DIR=~/Downloads/base/ships
@@ -71,8 +71,10 @@ do_convert() {
 }
 
 for ship in ${SHIPS}; do
-  FILE=$(find $HD4X_DIR -name $ship-big-000.png)
+  FILE=$(find $HD4X_DIR -name $ship-big-000.png | head -n1)
+  if [[ ! -f $FILE ]]; then echo "no $ship"; exit 1; fi
   do_convert _hd2x
-  FILE=$(find $BASE_DIR -name $ship-big-000.png)
+  FILE=$(find $BASE_DIR -name $ship-big-000.png | head -n1)
+  if [[ ! -f $FILE ]]; then echo "no $ship"; exit 1; fi
   do_convert
 done
