@@ -37,9 +37,12 @@ do_convert() {
 
   rm "${DEST_DIR}/${outfile}~color.png"
   ffmpeg -i /tmp/temp.png -vf \
-  "scale=-2:76:flags=lanczos,\
- unsharp=7:7:1.0:3:3:0.5, \
- eq=contrast=1.2" \
+"scale=-2:76:flags=lanczos,\
+unsharp=7:7:1.0:3:3:0.5,\
+eq=contrast=1.2,\
+split[s0][s1];\
+[s0]palettegen=max_colors=64[p];\
+[s1][p]paletteuse=dither=floyd_steinberg" \
   ${DEST_DIR}/${outfile}~color.png
 
   if [[ -z ${postfix:-} ]]; then
@@ -58,16 +61,22 @@ do_convert() {
   #p2
   rm ${DEST_DIR}/${outfile}~color~228h.png
   ffmpeg -i /tmp/temp.png -vf \
-  "scale=-2:103:flags=lanczos,\
-  unsharp=7:7:1.0:3:3:0.5,\
-  eq=contrast=1.2" \
+"scale=-2:103:flags=lanczos,\
+unsharp=7:7:1.0:3:3:0.5,\
+eq=contrast=1.2,\
+split[s0][s1];\
+[s0]palettegen=max_colors=64[p];\
+[s1][p]paletteuse=dither=floyd_steinberg" \
   ${DEST_DIR}/${outfile}~color~228h.png
   #round2
   rm ${DEST_DIR}/${outfile}~color~260h.png
   ffmpeg -i /tmp/temp.png -vf \
-  "scale=-2:117:flags=lanczos,\
-  unsharp=7:7:1.0:3:3:0.5,\
-  eq=contrast=1.2" \
+"scale=-2:117:flags=lanczos,\
+unsharp=7:7:1.0:3:3:0.5,\
+eq=contrast=1.2,\
+split[s0][s1];\
+[s0]palettegen=max_colors=64[p];\
+[s1][p]paletteuse=dither=floyd_steinberg" \
   ${DEST_DIR}/${outfile}~color~260h.png
   rm /tmp/temp.png
 }
