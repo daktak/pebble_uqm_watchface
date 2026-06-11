@@ -42,7 +42,7 @@ do_convert() {
  eq=contrast=1.2" \
   ${DEST_DIR}/${outfile}~color.png
 
-  if [[ -z ${prefix} ]]; then
+  if [[ -z ${postfix:-} ]]; then
     rm "${DEST_DIR}/${outfile}~bw.png"
     convert "${DEST_DIR}/${outfile}~color.png" \
     -colorspace Gray \
