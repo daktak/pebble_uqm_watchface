@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 DEST_DIR=~/git/pebble_uqm_watchface/resources/images
 HD4X_DIR=~/Downloads/hires4x/hires4x/ships/
 BASE_DIR=~/Downloads/base/ships
@@ -42,14 +42,16 @@ do_convert() {
  eq=contrast=1.2" \
   ${DEST_DIR}/${outfile}~color.png
 
-  rm "${DEST_DIR}/${outfile}~bw.png"
-  convert "${DEST_DIR}/${outfile}~color.png" \
-  -colorspace Gray \
-  -filter Triangle \
-  -sigmoidal-contrast 6x50% \
-  -dither FloydSteinberg \
-  -remap pattern:gray50 \
-  "${DEST_DIR}/${outfile}~bw.png"
+  if [[ -z ${prefix} ]]; then
+    rm "${DEST_DIR}/${outfile}~bw.png"
+    convert "${DEST_DIR}/${outfile}~color.png" \
+    -colorspace Gray \
+    -filter Triangle \
+    -sigmoidal-contrast 6x50% \
+    -dither FloydSteinberg \
+    -remap pattern:gray50 \
+    "${DEST_DIR}/${outfile}~bw.png"
+  fi
 
   #p2
   rm ${DEST_DIR}/${outfile}~color~228h.png
