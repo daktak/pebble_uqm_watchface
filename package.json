@@ -1,7 +1,7 @@
 {
     "author": "daktak@domo.ddns.net",
     "dependencies": {
-        "pebble-clay": "^1.0.0"
+        "@rebble/clay": "^1.0.10"
     },
     "keywords": [],
     "name": "uqm_watchface",
