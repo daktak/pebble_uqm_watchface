@@ -51,6 +51,8 @@ do_convert() {
     -dither FloydSteinberg \
     -remap pattern:gray50 \
     "${DEST_DIR}/${outfile}~bw.png"
+  else
+    convert -size 1x1 xc:black -type bilevel PNG8:"${DEST_DIR}/${outfile}~bw.png"
   fi
 
   #p2
