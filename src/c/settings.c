@@ -29,11 +29,12 @@ static void prv_default_settings() {
   settings.ywing_chance = 3;
   settings.animations = true;
   settings.hd_gfx = PBL_IF_COLOR_ELSE(true,false);
-  //settings.last_ship = 0;
-  //settings.last_race = 0;
+  settings.last_ship = 0;
+  settings.last_race = 0;
+  settings.last_cap = 0;
 }
 
-void prv_load_settings() {
+void load_settings() {
   // Load the default settings
   prv_default_settings();
   // Read settings from persistent storage, if they exist
@@ -46,8 +47,15 @@ static void prv_save_settings() {
   persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
 }
 
+void save_ship_state(int ship, int race, int cap) {
+  settings.last_ship = ship;
+  settings.last_race = race;
+  settings.last_cap = cap;
+  prv_save_settings();
+}
+
 //inbox
-void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
+void inbox_received_handler(DictionaryIterator *iter, void *context) {
   int random_race_int = get_random_race_int();
   Tuple *ship_select_t = dict_find(iter, MESSAGE_KEY_ShipSelection);
   Tuple *ship_change_t = dict_find(iter, MESSAGE_KEY_ShipChange);
@@ -61,7 +69,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
     settings.ship_select = atoi(ship_select_t->value->cstring);
     //log_int(settings.ship_select);
     if (old_ship != settings.ship_select) {
-      set_ship(settings);
+      set_ship(settings, false);
     }
   }
   if (turret_rotate_t) {
@@ -73,7 +81,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
       struct tm *tick_time = localtime(&temp);
       rotate_turret(tick_time, settings.turret_rotate);
     }
-    reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
+    reset_timer(settings.ship_rotate, settings.turret_rotate);
   }
   if (ship_rotate_t) {
     int old_rotate  = settings.ship_rotate;
@@ -87,7 +95,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
       rotate(tick_time, settings.ship_rotate);
     }
 
-    reset_timer(old_rotate, settings.ship_rotate, settings.turret_rotate);
+    reset_timer(settings.ship_rotate, settings.turret_rotate);
   }
   if (ship_change_t) {
     settings.ship_change = atoi(ship_change_t->value->cstring);
@@ -107,7 +115,7 @@ void prv_inbox_received_handler(DictionaryIterator *iter, void *context) {
       GRect bounds = get_bounds();
       Layer *window_layer = get_window_layer();
       create_turret(bounds, window_layer, settings.hd_gfx);
-      set_ship(settings);
+      set_ship(settings, true);
     }
   }
   prv_save_settings();

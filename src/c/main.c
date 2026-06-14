@@ -7,25 +7,11 @@
 #include "src/c/ship.h"
 #include "src/c/display_layer.h"
 
-/*
- NOTES
- -- UQM HD4X content too large to store all ships
- -- max watchface size 100k
- TODO
- - HD2X move nemesis_turret to rotate correctly
- - run all pngs through the palette
- - test b&w
- - Remember last ship and not redraw
- - Remember last captain name
- - Animate ship
- */
-
-
-int random_race_int;
-int current_insult = 0;
+static int random_race_int;
+static int current_insult = 0;
 static Window *s_main_window;
-Layer *window_layer;
-GRect bounds;
+static Layer *window_layer;
+static GRect bounds;
 
 GRect get_bounds() {
   return bounds;
@@ -61,20 +47,20 @@ static void change(int min) {
   //APP_LOG(APP_LOG_LEVEL_INFO, "change");
   if (settings.ship_change == min) {
     random_race_int = 0;
-    set_ship(settings);
-  } else if ((random_race_int == MMRNHRM)&&(min=-1)) {
+    set_ship(settings, false);
+  } else if ((random_race_int == MMRNHRM)&&(min==-1)) {
     //give a chace for the xform to switch to ywing and vica versa
     if (rand() % 20 == 1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
-      set_ship(settings);
+      set_ship(settings, false);
     }
   } else if ((random_race_int == MMRNHRM)&&(min==1)&&
-             ((settings.ship_rotate!=1)||((settings.turret_rotate!=1)&&(random_race_int=ORZ)))) {
+             ((settings.ship_rotate!=1)||((settings.turret_rotate!=1)&&(random_race_int==ORZ)))) {
     //give a chace for the xform to switch to ywing and vica versa
     //higher chance
     if (rand() % 2 == 1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
-      set_ship(settings);
+      set_ship(settings, false);
     }
   }
   if (settings.cap_change == min) {
@@ -131,12 +117,8 @@ static void set_ticker() {
   };
 }
 
-void reset_timer(int old_rotate, int ship_rotate, int turret_rotate) {
-    //reset up timer service
-    if ((old_rotate==1)&& ((ship_rotate == 1)||(turret_rotate == 1))) {
-      tick_timer_service_unsubscribe();
-      set_ticker();
-    } else if ((old_rotate!=1)&& ((ship_rotate == 1)||(turret_rotate == 1))) {
+void reset_timer(int ship_rotate, int turret_rotate) {
+    if ((ship_rotate == 1)||(turret_rotate == 1)) {
       tick_timer_service_unsubscribe();
       set_ticker();
     }
@@ -158,10 +140,13 @@ static void main_window_load(Window *window) {
 }
 
 static void init() {
-  prv_load_settings();
+  load_settings();
+  ClaySettings s = get_settings();
+  random_race_int = s.last_race;
+  restore_ship_int(s.last_ship);
   // Create main Window element and assign to pointer
   // Open AppMessage connection
-  app_message_register_inbox_received(prv_inbox_received_handler);
+  app_message_register_inbox_received(inbox_received_handler);
   app_message_open(128, 128);
 
   s_main_window = window_create();

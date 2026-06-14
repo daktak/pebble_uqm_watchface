@@ -54,90 +54,157 @@ static char terminator_cap[16][10] = {"Heep-eep","Feep-eep","Reep-eep","Yeep-eep
 //zoqfotpik
 static char stinger_cap[16][8] = {"NikNak","FipPat","DipPak","FatPot","ZikFat","PukYor","TopNik","PorKoo","TikTak","RinTin","FitFap","TotToe","ZipZak","TikTok","MikMok","SikSok"};
 
+static int last_cap_index;
+
+int get_last_cap_index() {
+  return last_cap_index;
+}
+
+char* get_captain_by_index(int race, int index) {
+  char *current_cap;
+  switch (race) {
+    case SPATHI:    current_cap = eluder_cap[index % 17]; break;
+    case ANDROSYNTH: current_cap = guardian_cap[index % 16]; break;
+    case ARILOU:    current_cap = skiff_cap[index % 16]; break;
+    case CHENJESU:  current_cap = broodhome_cap[index % 16]; break;
+    case CHMMR:     current_cap = avatar_cap[index % 16]; break;
+    case DRUUGE:    current_cap = mauler_cap[index % 16]; break;
+    case HUMAN:     current_cap = cruiser_cap[index % 16]; break;
+    case ILWRATH:   current_cap = avenger_cap[index % 16]; break;
+    case KOHRAH:    current_cap = marauder_cap[index % 16]; break;
+    case MELNORME:  current_cap = trader_cap[index % 16]; break;
+    case MMRNHRM:   current_cap = xform_cap[index % 16]; break;
+    case MYCON:     current_cap = podship_cap[index % 16]; break;
+    case ORZ:       current_cap = nemesis_cap[index % 16]; break;
+    case PKUNK:     current_cap = fury_cap[index % 16]; break;
+    case SHOFIXTI:  current_cap = scout_cap[index % 18]; break;
+    case SLYLANDRO: current_cap = probe_cap[0]; break;
+    case SUPOX:     current_cap = blade_cap[index % 16]; break;
+    case SYREEN:    current_cap = penetrator_cap[index % 16]; break;
+    case THRADDASH: current_cap = torch_cap[index % 16]; break;
+    case UMGAH:     current_cap = drone_cap[index % 16]; break;
+    case URQUAN:    current_cap = dreadnought_cap[index % 16]; break;
+    case UTWIG:     current_cap = jugger_cap[index % 16]; break;
+    case VUX:       current_cap = intruder_cap[index % 16]; break;
+    case YEHAT:     current_cap = terminator_cap[index % 16]; break;
+    case ZOQFOTPIK: current_cap = stinger_cap[index % 16]; break;
+    default:        current_cap = "daktak";
+  }
+  last_cap_index = index;
+  return current_cap;
+}
+
 //Randomly select the captains name
-char* get_captain(int random_race_int) {
-  //APP_LOG(APP_LOG_LEVEL_INFO, "set_captain");
+char* get_captain(int race) {
   char *current_cap;
   int def_rand = rand() % 16;
-  switch (random_race_int) {
+  int idx;
+  switch (race) {
     case SPATHI:
-      current_cap = eluder_cap[rand() % 17];
+      idx = rand() % 17;
+      current_cap = eluder_cap[idx];
       break;
     case ANDROSYNTH:
-      current_cap = guardian_cap[def_rand];
+      idx = def_rand;
+      current_cap = guardian_cap[idx];
       break;
     case ARILOU:
-      current_cap = skiff_cap[def_rand];
+      idx = def_rand;
+      current_cap = skiff_cap[idx];
       break;
     case CHENJESU:
-      current_cap = broodhome_cap[def_rand];
+      idx = def_rand;
+      current_cap = broodhome_cap[idx];
       break;
     case CHMMR:
-      current_cap = avatar_cap[def_rand];
+      idx = def_rand;
+      current_cap = avatar_cap[idx];
       break;
     case DRUUGE:
-      current_cap = mauler_cap[def_rand];
+      idx = def_rand;
+      current_cap = mauler_cap[idx];
       break;
     case HUMAN:
-      current_cap = cruiser_cap[def_rand];
+      idx = def_rand;
+      current_cap = cruiser_cap[idx];
       break;
     case ILWRATH:
-      current_cap = avenger_cap[def_rand];
+      idx = def_rand;
+      current_cap = avenger_cap[idx];
       break;
     case KOHRAH:
-      current_cap = marauder_cap[def_rand];
+      idx = def_rand;
+      current_cap = marauder_cap[idx];
       break;
     case MELNORME:
-      current_cap = trader_cap[def_rand];
+      idx = def_rand;
+      current_cap = trader_cap[idx];
       break;
     case MMRNHRM:
-      current_cap = xform_cap[def_rand];
+      idx = def_rand;
+      current_cap = xform_cap[idx];
       break;
     case MYCON:
-      current_cap = podship_cap[def_rand];
+      idx = def_rand;
+      current_cap = podship_cap[idx];
       break;
     case ORZ:
-      current_cap = nemesis_cap[def_rand];
+      idx = def_rand;
+      current_cap = nemesis_cap[idx];
       break;
     case PKUNK:
-      current_cap = fury_cap[def_rand];
+      idx = def_rand;
+      current_cap = fury_cap[idx];
       break;
     case SHOFIXTI:
-      current_cap = scout_cap[def_rand];
+      idx = rand() % 18;
+      current_cap = scout_cap[idx];
       break;
     case SLYLANDRO:
+      idx = 0;
       current_cap = probe_cap[0];
       break;
     case SUPOX:
-      current_cap = blade_cap[def_rand];
+      idx = def_rand;
+      current_cap = blade_cap[idx];
       break;
     case SYREEN:
-      current_cap = penetrator_cap[def_rand];
+      idx = def_rand;
+      current_cap = penetrator_cap[idx];
       break;
     case THRADDASH:
-      current_cap = torch_cap[def_rand];
+      idx = def_rand;
+      current_cap = torch_cap[idx];
       break;
     case UMGAH:
-      current_cap = drone_cap[def_rand];
+      idx = def_rand;
+      current_cap = drone_cap[idx];
       break;
     case URQUAN:
-      current_cap = dreadnought_cap[def_rand];
+      idx = def_rand;
+      current_cap = dreadnought_cap[idx];
       break;
     case UTWIG:
-      current_cap = jugger_cap[def_rand];
+      idx = def_rand;
+      current_cap = jugger_cap[idx];
       break;
     case VUX:
-      current_cap = intruder_cap[def_rand];
+      idx = def_rand;
+      current_cap = intruder_cap[idx];
       break;
     case YEHAT:
-      current_cap = terminator_cap[def_rand];
+      idx = def_rand;
+      current_cap = terminator_cap[idx];
       break;
     case ZOQFOTPIK:
-      current_cap = stinger_cap[def_rand];
+      idx = def_rand;
+      current_cap = stinger_cap[idx];
       break;
     default:
+      idx = 0;
       current_cap = "daktak";
   }
+  last_cap_index = idx;
   return current_cap;
 }
 

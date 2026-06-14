@@ -7,11 +7,11 @@
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
 static TextLayer *s_insult_layer;
-bool first_position[4] = {true,true,true};
-GRect gbounds;
-char *s_captain;
-Animation *anim[4];
-char *s_insult;
+static bool first_position[4] = {true,true,true};
+static GRect gbounds;
+static char *s_captain;
+static Animation *anim[4];
+static char *s_insult;
 
 void set_insult() {
   static char s_buffer[8];
@@ -37,9 +37,14 @@ void set_captain() {
 
 //Update captain name
 void update_captain(char *captain) {
+  if (s_captain != NULL && strcmp(s_captain, captain) == 0) {
+    set_captain();
+    return;
+  }
+  bool first = (s_captain == NULL);
   ClaySettings settings = get_settings();
   s_captain = captain;
-  if (settings.animations) {
+  if (settings.animations && !first) {
     animate_layer(gbounds, s_cap_layer, true, CAPTAIN);
   } else {
     set_captain();
@@ -168,6 +173,7 @@ void destroy_text_layer() {
 }
 
 void window_load(GRect bounds, Layer *window_layer) {
+  gbounds = bounds;
   // Time
   s_time_layer = text_layer_create(
       GRect(0, PBL_IF_ROUND_ELSE(10, 2), bounds.size.w, 50)); //58.52
@@ -202,5 +208,5 @@ void window_load(GRect bounds, Layer *window_layer) {
 
   ClaySettings settings = get_settings();
   create_turret(bounds, window_layer, settings.hd_gfx);
-  set_ship(settings);
+  set_ship(settings, true);
 }
