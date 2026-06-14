@@ -13,10 +13,12 @@ typedef struct ClaySettings {
   int ywing_chance;
   bool animations;
   bool hd_gfx;
-  //int last_ship;
-  //int last_race;
+  int last_ship;
+  int last_race;
+  int last_cap;
 } ClaySettings;
 
-void prv_inbox_received_handler(DictionaryIterator *iter, void *context);
-void prv_load_settings();
+void inbox_received_handler(DictionaryIterator *iter, void *context);
+void load_settings();
 ClaySettings get_settings();
+void save_ship_state(int ship, int race, int cap);

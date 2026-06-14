@@ -24,42 +24,13 @@ static int races_hd2x[26] = {RESOURCE_ID_ELUDER_HD2X, RESOURCE_ID_GUARDIAN_HD2X,
                           RESOURCE_ID_TORCH_HD2X, RESOURCE_ID_DRONE_HD2X, RESOURCE_ID_DREADNOUGHT_HD2X, RESOURCE_ID_JUGGER_HD2X, RESOURCE_ID_INTRUDER_HD2X,
                           RESOURCE_ID_TERMINATOR_HD2X, RESOURCE_ID_STINGER_HD2X, RESOURCE_ID_YWING_HD2X};
 
-int ship_int;
+static int ship_int;
 
-/*
-static void anim_started_handler(Animation *animation, void *context) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Animation started!");
+void restore_ship_int(int last_ship) {
+  ship_int = last_ship;
 }
 
-static void anim_stopped_handler(Animation *animation, bool finished, void *context) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Animation stopped!");
-}
 
-void animate_ship() {
-    GRect bounds = get_bounds();
-    GRect onscreen = layer_get_frame((Layer*)rot);
-    GRect offscreen = GRect(bounds.size.w/2-15, bounds.size.h, bounds.size.w, bounds.size.h);
-    PropertyAnimation *prop_anim = property_animation_create_layer_frame((Layer*)rot, &offscreen, &onscreen);
-      // Get the Animation
-    Animation *anim = property_animation_get_animation(prop_anim);
-
-    // Choose parameters
-    const int delay_ms = 1000;
-    const int duration_ms = 500;
-
-    // Configure the Animation's curve, delay, and duration
-    animation_set_curve(anim, AnimationCurveEaseOut);
-    animation_set_delay(anim, delay_ms);
-    animation_set_duration(anim, duration_ms);
-    // Set some handlers
-    animation_set_handlers(anim, (AnimationHandlers) {
-      .started = anim_started_handler,
-      .stopped = anim_stopped_handler
-    }, NULL);
-    // Play the animation
-    animation_schedule(anim);
-}
-*/
 //ORZ Nemesis Turret rotation
 void rotate_turret(struct tm *tick_time, int min) {
   ClaySettings settings = get_settings();
@@ -100,7 +71,7 @@ void rotate(struct tm *tick_time, int min) {
 }
 
 //Change the ship image and rotate to correct orientation
-void set_ship(ClaySettings settings){
+void set_ship(ClaySettings settings, bool force){
   int random_race_int = get_random_race_int();
   //APP_LOG(APP_LOG_LEVEL_INFO, "set_ship");
   int old_race = random_race_int;
@@ -110,14 +81,16 @@ void set_ship(ClaySettings settings){
   //ship_int = random_race_int;
   // chance mmrnhrm is ywing
   if (random_race_int == MMRNHRM) {
-    if (rand() % settings.ywing_chance == 1) {
+    if (force && old_ship > 0) {
+      ship_int = old_ship;
+    } else if (rand() % settings.ywing_chance == 1) {
       //APP_LOG(APP_LOG_LEVEL_INFO, "YWing");
       ship_int = YWING;
     }
   }
 
-  if (ship_int != old_ship) {
-    reset_timer(settings.ship_rotate, settings.ship_rotate, settings.turret_rotate);
+  if ((ship_int != old_ship) || force) {
+    reset_timer(settings.ship_rotate, settings.turret_rotate);
     layer_remove_from_parent((Layer*)rott);
     layer_remove_from_parent((Layer*)rot);
     int ship_resource = races[ship_int-1];
@@ -143,7 +116,6 @@ void set_ship(ClaySettings settings){
     }
     Layer *window_layer = get_window_layer();
     layer_add_child(window_layer, (Layer*)rot);
-    //animate_ship();
     if (ship_int == ORZ) {
       //set initial angle,
       if (settings.ship_rotate != 0) {
@@ -154,13 +126,20 @@ void set_ship(ClaySettings settings){
       layer_add_child(window_layer, (Layer*)rott);
     }
   }
-  if ((old_race != random_race_int)||((old_race == 0)&&(random_race_int==0))) {
-    update_captain(get_captain(random_race_int));
+  if ((old_race != random_race_int) || force) {
+    if ((old_race != random_race_int)) {
+      update_captain(get_captain(random_race_int));
+    } else {
+      update_captain(get_captain_by_index(random_race_int, settings.last_cap));
+    }
   }
+  save_ship_state(ship_int, random_race_int, get_last_cap_index());
 }
 
 void create_turret(GRect bounds, Layer *window_layer, bool hd_gfx) {
   //Nemesis Turret
+  if (turret_image != NULL) gbitmap_destroy(turret_image);
+  if (rott != NULL) rot_bitmap_layer_destroy(rott);
   int turret_resource = RESOURCE_ID_NEMESIS_TURRET;
   if ((hd_gfx)&&(PBL_IF_COLOR_ELSE(true,false))) {
     turret_resource = RESOURCE_ID_NEMESIS_TURRET_HD2X;
