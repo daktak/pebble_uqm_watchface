@@ -42,8 +42,21 @@ int set_race() {
 
 
 //initiate the changes
+static bool is_quiet_time(struct tm *tick_time, ClaySettings *s) {
+  if (!s->quiet_time) return false;
+  int h = tick_time->tm_hour;
+  if (s->quiet_start < s->quiet_stop) {
+    return h >= s->quiet_start && h < s->quiet_stop;
+  } else {
+    return h >= s->quiet_start || h < s->quiet_stop;
+  }
+}
+
 static void change(int min) {
   ClaySettings settings = get_settings();
+  time_t temp = time(NULL);
+  struct tm *tick_time = localtime(&temp);
+  if (is_quiet_time(tick_time, &settings)) return;
   bool ship_changed = false;
   if (settings.ship_change == min) {
     random_race_int = 0;

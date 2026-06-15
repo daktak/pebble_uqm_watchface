@@ -13,6 +13,9 @@ typedef struct ClaySettings {
   int ywing_chance;
   bool animations;
   bool hd_gfx;
+  bool quiet_time;
+  int quiet_start;
+  int quiet_stop;
   int last_ship;
   int last_race;
   int last_cap;
