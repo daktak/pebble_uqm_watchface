@@ -44,26 +44,22 @@ int set_race() {
 //initiate the changes
 static void change(int min) {
   ClaySettings settings = get_settings();
-  //APP_LOG(APP_LOG_LEVEL_INFO, "change");
+  bool ship_changed = false;
   if (settings.ship_change == min) {
     random_race_int = 0;
     set_ship(settings, false);
+    ship_changed = true;
   } else if ((random_race_int == MMRNHRM)&&(min==-1)) {
-    //give a chace for the xform to switch to ywing and vica versa
     if (rand() % 20 == 1) {
-      //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
       set_ship(settings, false);
     }
   } else if ((random_race_int == MMRNHRM)&&(min==1)&&
              ((settings.ship_rotate!=1)||((settings.turret_rotate!=1)&&(random_race_int==ORZ)))) {
-    //give a chace for the xform to switch to ywing and vica versa
-    //higher chance
     if (rand() % 2 == 1) {
-      //APP_LOG(APP_LOG_LEVEL_INFO, "Mmrnhrm chance to change");
       set_ship(settings, false);
     }
   }
-  if (settings.cap_change == min) {
+  if (settings.cap_change == min && !ship_changed) {
     update_captain(get_captain(random_race_int));
   }
 
