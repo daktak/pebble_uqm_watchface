@@ -29,6 +29,9 @@ static void prv_default_settings() {
   settings.ywing_chance = 3;
   settings.animations = true;
   settings.hd_gfx = PBL_IF_COLOR_ELSE(true,false);
+  settings.quiet_time = false;
+  settings.quiet_start = 23;
+  settings.quiet_stop = 6;
   settings.last_ship = 0;
   settings.last_race = 0;
   settings.last_cap = 0;
@@ -117,6 +120,18 @@ void inbox_received_handler(DictionaryIterator *iter, void *context) {
       create_turret(bounds, window_layer, settings.hd_gfx);
       set_ship(settings, true);
     }
+  }
+  Tuple *quiet_time_t = dict_find(iter, MESSAGE_KEY_ShipQuietTime);
+  if (quiet_time_t) {
+    settings.quiet_time = quiet_time_t->value->uint32 == 1;
+  }
+  Tuple *quiet_start_t = dict_find(iter, MESSAGE_KEY_ShipQuietStart);
+  if (quiet_start_t) {
+    settings.quiet_start = quiet_start_t->value->int32;
+  }
+  Tuple *quiet_stop_t = dict_find(iter, MESSAGE_KEY_ShipQuietStop);
+  if (quiet_stop_t) {
+    settings.quiet_stop = quiet_stop_t->value->int32;
   }
   prv_save_settings();
 }
