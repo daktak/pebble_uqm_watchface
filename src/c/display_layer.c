@@ -6,7 +6,7 @@
 
 // Platform-specific font sizes and layout constants
 #if defined(PBL_PLATFORM_GABBRO)
-  #define TIME_FONT FONT_KEY_LECO_42_LIGHT_NUMBERS
+  #define TIME_FONT FONT_KEY_LECO_42_NUMBERS
   #define CAP_FONT FONT_KEY_GOTHIC_28
   #define INSULT_FONT FONT_KEY_GOTHIC_24
   #define TIME_Y 12
@@ -18,7 +18,7 @@
   #define INSULT_W_OFF 30
   #define INSULT_H 40
 #elif defined(PBL_PLATFORM_EMERY)
-  #define TIME_FONT FONT_KEY_LECO_36_LIGHT_NUMBERS
+  #define TIME_FONT FONT_KEY_LECO_36_BOLD_NUMBERS
   #define CAP_FONT FONT_KEY_GOTHIC_24
   #define INSULT_FONT FONT_KEY_GOTHIC_18
   #define TIME_Y 5
@@ -30,7 +30,7 @@
   #define INSULT_W_OFF 20
   #define INSULT_H 40
 #elif defined(PBL_PLATFORM_CHALK)
-  #define TIME_FONT FONT_KEY_LECO_32_LIGHT_NUMBERS
+  #define TIME_FONT FONT_KEY_LECO_32_BOLD_NUMBERS
   #define CAP_FONT FONT_KEY_GOTHIC_18
   #define INSULT_FONT FONT_KEY_GOTHIC_14
   #define TIME_Y 10
