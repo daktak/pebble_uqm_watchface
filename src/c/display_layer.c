@@ -4,6 +4,57 @@
 #include "src/c/settings.h"
 #include "src/c/ship.h"
 
+// Platform-specific font sizes and layout constants
+#if defined(PBL_PLATFORM_GABBRO)
+  #define TIME_FONT FONT_KEY_LECO_42_LIGHT_NUMBERS
+  #define CAP_FONT FONT_KEY_GOTHIC_28
+  #define INSULT_FONT FONT_KEY_GOTHIC_24
+  #define TIME_Y 12
+  #define TIME_H 70
+  #define CAP_BOTTOM 42
+  #define CAP_H 55
+  #define INSULT_X_OFF 100
+  #define INSULT_Y 55
+  #define INSULT_W_OFF 30
+  #define INSULT_H 40
+#elif defined(PBL_PLATFORM_EMERY)
+  #define TIME_FONT FONT_KEY_LECO_36_LIGHT_NUMBERS
+  #define CAP_FONT FONT_KEY_GOTHIC_24
+  #define INSULT_FONT FONT_KEY_GOTHIC_18
+  #define TIME_Y 5
+  #define TIME_H 60
+  #define CAP_BOTTOM 38
+  #define CAP_H 50
+  #define INSULT_X_OFF 80
+  #define INSULT_Y 50
+  #define INSULT_W_OFF 20
+  #define INSULT_H 40
+#elif defined(PBL_PLATFORM_CHALK)
+  #define TIME_FONT FONT_KEY_LECO_32_LIGHT_NUMBERS
+  #define CAP_FONT FONT_KEY_GOTHIC_18
+  #define INSULT_FONT FONT_KEY_GOTHIC_14
+  #define TIME_Y 10
+  #define TIME_H 55
+  #define CAP_BOTTOM 32
+  #define CAP_H 50
+  #define INSULT_X_OFF 74
+  #define INSULT_Y 50
+  #define INSULT_W_OFF 24
+  #define INSULT_H 40
+#else
+  #define TIME_FONT FONT_KEY_LECO_28_LIGHT_NUMBERS
+  #define CAP_FONT FONT_KEY_GOTHIC_18
+  #define INSULT_FONT FONT_KEY_GOTHIC_14
+  #define TIME_Y 2
+  #define TIME_H 50
+  #define CAP_BOTTOM 32
+  #define CAP_H 50
+  #define INSULT_X_OFF 62
+  #define INSULT_Y 44
+  #define INSULT_W_OFF 12
+  #define INSULT_H 40
+#endif
+
 static TextLayer *s_time_layer;
 static TextLayer *s_cap_layer;
 static TextLayer *s_insult_layer;
@@ -108,17 +159,17 @@ void animate_layer(GRect bounds, TextLayer *text_layer, bool first, int layer_nu
 
   switch (layer_num) {
     case TIME:
-      offscreen = GRect(0, -50, bounds.size.w, 0);
-      onscreen = GRect(0, PBL_IF_ROUND_ELSE(10, 2), bounds.size.w, 50);
+      offscreen = GRect(0, -(TIME_H + 10), bounds.size.w, 0);
+      onscreen = GRect(0, TIME_Y, bounds.size.w, TIME_H);
       break;
     case CAPTAIN:
-      onscreen = GRect(0, bounds.size.h - 32, bounds.size.w, 50);
-      offscreen = GRect(0, bounds.size.h, bounds.size.w, 50);
+      onscreen = GRect(0, bounds.size.h - CAP_BOTTOM, bounds.size.w, CAP_H);
+      offscreen = GRect(0, bounds.size.h, bounds.size.w, CAP_H);
       break;
     case INSULT:
       delay_ms = 500;
       duration_ms = 200;
-      onscreen = GRect(bounds.size.w - PBL_IF_ROUND_ELSE(74,62), PBL_IF_ROUND_ELSE(50,44), bounds.size.w - PBL_IF_ROUND_ELSE(24,12), 40);
+      onscreen = GRect(bounds.size.w - INSULT_X_OFF, INSULT_Y, bounds.size.w - INSULT_W_OFF, INSULT_H);
       offscreen = GRect(bounds.size.w/2, bounds.size.h/2, 0, 0);
       break;
     default:
@@ -176,33 +227,28 @@ void window_load(GRect bounds, Layer *window_layer) {
   gbounds = bounds;
   // Time
   s_time_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(10, 2), bounds.size.w, 50)); //58.52
-  // Improve the layout to be more like a watchface
+      GRect(0, TIME_Y, bounds.size.w, TIME_H));
   text_layer_set_background_color(s_time_layer, GColorBlack);
   text_layer_set_text_color(s_time_layer, GColorWhite);
-  //text_layer_set_text(s_time_layer, "00:00");
-  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_28_LIGHT_NUMBERS));
+  text_layer_set_font(s_time_layer, fonts_get_system_font(TIME_FONT));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
-  // Add it as a child layer to the Window's root layer
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
 
   //Insult
   s_insult_layer = text_layer_create(
-      GRect(bounds.size.w - PBL_IF_ROUND_ELSE(74,62) , PBL_IF_ROUND_ELSE(50,44), bounds.size.w - PBL_IF_ROUND_ELSE(24,12), 40));
+      GRect(bounds.size.w - INSULT_X_OFF, INSULT_Y, bounds.size.w - INSULT_W_OFF, INSULT_H));
   text_layer_set_background_color(s_insult_layer, GColorBlack);
   text_layer_set_text_color(s_insult_layer, GColorWhite);
-  //text_layer_set_text(s_insult_layer, "Dou-Dou");
-  text_layer_set_font(s_insult_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_font(s_insult_layer, fonts_get_system_font(INSULT_FONT));
   text_layer_set_text_alignment(s_insult_layer, GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(s_insult_layer));
 
   //Captain Name
   s_cap_layer = text_layer_create(
-      GRect(0, bounds.size.h - 32, bounds.size.w, 50));
+      GRect(0, bounds.size.h - CAP_BOTTOM, bounds.size.w, CAP_H));
   text_layer_set_background_color(s_cap_layer, GColorBlack);
   text_layer_set_text_color(s_cap_layer, GColorWhite);
-  //update_captain();
-  text_layer_set_font(s_cap_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
+  text_layer_set_font(s_cap_layer, fonts_get_system_font(CAP_FONT));
   text_layer_set_text_alignment(s_cap_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_cap_layer));
 
