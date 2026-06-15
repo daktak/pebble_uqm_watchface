@@ -54,7 +54,7 @@ void restore_ship_int(int last_ship) {
 
 static void rotate_layer(RotBitmapLayer *layer, struct tm *tick_time, int min, int interval) {
   if (interval != min) return;
-  int unit;
+  int unit = 0;
   if (min == 1)
     unit = tick_time->tm_sec * TRIG_MAX_ANGLE / 60;
   else if (min == 60)
