@@ -9,6 +9,7 @@
 
 static int random_race_int;
 static int current_insult = 0;
+static bool is_in_quiet_time = false;
 static Window *s_main_window;
 static Layer *window_layer;
 static GRect bounds;
@@ -94,6 +95,26 @@ static void change(int min) {
 
 //trigger timing updates
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  ClaySettings settings = get_settings();
+  bool quiet = is_quiet_time(tick_time, &settings);
+
+  if (quiet && !is_in_quiet_time) {
+    is_in_quiet_time = true;
+    tick_timer_service_unsubscribe();
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  } else if (!quiet && is_in_quiet_time) {
+    is_in_quiet_time = false;
+    tick_timer_service_unsubscribe();
+    set_ticker();
+  }
+
+  if (quiet) {
+    if (tick_time->tm_sec == 0) {
+      update_time(bounds);
+    }
+    return;
+  }
+
   rotate(tick_time,1);
   rotate_turret(tick_time,1);
   change(-1);
@@ -118,6 +139,10 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 }
 
 static void set_ticker() {
+  if (is_in_quiet_time) {
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+    return;
+  }
   ClaySettings settings = get_settings();
   if ((settings.ship_rotate == 1)||(settings.turret_rotate == 1)) {
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
